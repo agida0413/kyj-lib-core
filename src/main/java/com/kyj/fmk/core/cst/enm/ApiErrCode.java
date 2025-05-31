@@ -13,7 +13,8 @@ import java.util.Map;
 public enum ApiErrCode {
 
     CM001("CM001","기본응답메시지 {0}"),
-    CM002("CM002","서버내부 오류입니다.");
+    CM002("CM002","서버내부 오류입니다."),
+    CM003("CM003","쿠키추출 오류입니다.");
 
     private final String code;
     private final String msg;

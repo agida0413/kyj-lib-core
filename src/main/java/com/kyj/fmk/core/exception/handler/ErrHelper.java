@@ -72,11 +72,4 @@ public class ErrHelper {
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    /**
-     *
-     * @return
-     */
-    private HttpHeaders setHeader(){
-        return null;
-    }
 }
