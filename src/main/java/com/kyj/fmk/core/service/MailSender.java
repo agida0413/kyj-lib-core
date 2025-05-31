@@ -7,6 +7,7 @@ package com.kyj.fmk.core.service;
 public interface MailSender {
 
 
-    public String send();
+    public void send(String template,String subject,String email);
+
 
 }

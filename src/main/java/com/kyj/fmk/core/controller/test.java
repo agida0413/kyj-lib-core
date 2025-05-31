@@ -4,10 +4,12 @@ import com.kyj.fmk.core.cst.dto.ResApiDTO;
 import com.kyj.fmk.core.cst.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjBizException;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
+import com.kyj.fmk.core.service.MailSender;
 import com.kyj.fmk.core.util.CookieUtil;
 import com.kyj.fmk.core.util.RandomGenerator;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,10 @@ import java.util.Map;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class test {
 
+   private final  MailSender mailSender;
     @RequestMapping("/test")
     public ResponseEntity<ResApiDTO<Void>> test(){
 
@@ -84,5 +88,15 @@ map.put("ttt","123123");
         return ResponseEntity
                 .ok()
                 .body(apiDTO);
+    }
+
+
+    @RequestMapping("/test8")
+    public  ResponseEntity<ResApiDTO<?>>  test8(){
+
+        mailSender.send("1","subject1","agida0413@naver.com");
+        return ResponseEntity
+                .ok()
+                .body(null);
     }
 }

@@ -15,7 +15,8 @@ public enum ApiErrCode {
     CM001("CM001","기본응답메시지 {0}"),
     CM002("CM002","서버내부 오류입니다."),
     CM003("CM003","쿠키추출 오류입니다."),
-    CM004("CM004","UTIL 클래스 오류입니다.");
+    CM004("CM004","UTIL 클래스 오류입니다."),
+    CM005("CM005","메일전송중 오류가 발생했습니다.");
 
     private final String code;
     private final String msg;
