@@ -5,6 +5,7 @@ import com.kyj.fmk.core.cst.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjBizException;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import com.kyj.fmk.core.util.CookieUtil;
+import com.kyj.fmk.core.util.RandomGenerator;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -71,5 +72,17 @@ map.put("ttt","123123");
         CookieUtil.deleteCookie("test",httpHeaders,"/");
         return ResponseEntity.ok().
                 headers(httpHeaders).body(null);
+    }
+
+
+    @RequestMapping("/test7")
+    public  ResponseEntity<ResApiDTO<?>>  test7(){
+
+    String str = RandomGenerator.generateRandomNumber(10);
+
+     ResApiDTO<String> apiDTO = new ResApiDTO(str);
+        return ResponseEntity
+                .ok()
+                .body(apiDTO);
     }
 }
