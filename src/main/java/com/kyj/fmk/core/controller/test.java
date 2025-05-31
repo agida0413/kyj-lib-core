@@ -1,24 +1,23 @@
 package com.kyj.fmk.core.controller;
 
+import com.kyj.fmk.core.async.AsyncService;
 import com.kyj.fmk.core.cst.dto.ResApiDTO;
 import com.kyj.fmk.core.cst.enm.ApiErrCode;
-import com.kyj.fmk.core.exception.custom.KyjBizException;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
-import com.kyj.fmk.core.service.MailSender;
+import com.kyj.fmk.core.mail.MailSender;
 import com.kyj.fmk.core.util.CookieUtil;
 import com.kyj.fmk.core.util.RandomGenerator;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @Slf4j
@@ -26,6 +25,7 @@ import java.util.Map;
 public class test {
 
    private final  MailSender mailSender;
+   private final AsyncService asyncService;
     @RequestMapping("/test")
     public ResponseEntity<ResApiDTO<Void>> test(){
 
@@ -93,8 +93,11 @@ map.put("ttt","123123");
 
     @RequestMapping("/test8")
     public  ResponseEntity<ResApiDTO<?>>  test8(){
+//        CompletableFuture<Object> future=  asyncService.invokeAsync(mailSender,
+//                mailSender.send(),"1","subject1","agida0413@naver.com");
 
-        mailSender.send("1","subject1","agida0413@naver.com");
+//        future.thenAccept(result -> System.out.println("결과: " + result));
+       // mailSender.send("1","subject1","agida0413@naver.com");
         return ResponseEntity
                 .ok()
                 .body(null);

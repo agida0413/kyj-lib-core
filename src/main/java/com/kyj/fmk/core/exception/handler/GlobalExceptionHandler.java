@@ -1,6 +1,7 @@
 package com.kyj.fmk.core.exception.handler;
 
 import com.kyj.fmk.core.cst.dto.ResApiErrDTO;
+import com.kyj.fmk.core.exception.custom.KyjAsncException;
 import com.kyj.fmk.core.exception.custom.KyjBaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.kyj.fmk.core.service;
+package com.kyj.fmk.core.mail;
 /**
  * 2025-05-29
  * @author 김용준

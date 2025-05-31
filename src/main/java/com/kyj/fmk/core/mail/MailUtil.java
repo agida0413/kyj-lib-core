@@ -1,4 +1,4 @@
-package com.kyj.fmk.core.util;
+package com.kyj.fmk.core.mail;
 
 import java.util.Map;
 
