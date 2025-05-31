@@ -33,7 +33,8 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-
+	implementation platform('software.amazon.awssdk:bom:2.25.4') // 최신 BOM 버전 (2025 기준)
+	implementation 'software.amazon.awssdk:s3'
 }
 
 tasks.named('test') {

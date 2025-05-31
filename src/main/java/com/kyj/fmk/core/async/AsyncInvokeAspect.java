@@ -27,7 +27,7 @@ public class AsyncInvokeAspect {
     private final AsyncHandleErr asyncHandleErr;
 
     /**
-     *
+     * 리턴값이 null인 메소드
      * @param joinPoint
      */
     @Around("@annotation(com.kyj.fmk.core.async.AsyncVoidInvoke)")
@@ -50,4 +50,8 @@ public class AsyncInvokeAspect {
         });
 
     }
+
+
+
+
 }

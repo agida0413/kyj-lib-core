@@ -3,7 +3,9 @@ package com.kyj.fmk.core.controller;
 import com.kyj.fmk.core.async.AsyncVoidInvoke;
 import com.kyj.fmk.core.cst.dto.ResApiDTO;
 import com.kyj.fmk.core.cst.enm.ApiErrCode;
+import com.kyj.fmk.core.cst.enm.FileType;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
+import com.kyj.fmk.core.file.FileService;
 import com.kyj.fmk.core.mail.MailSender;
 import com.kyj.fmk.core.util.CookieUtil;
 import com.kyj.fmk.core.util.RandomGenerator;
@@ -24,7 +26,7 @@ import java.util.Map;
 public class test {
 
    private final  MailSender mailSender;
-
+    private final FileService fileService;
     @RequestMapping("/test")
     public ResponseEntity<ResApiDTO<Void>> test(){
 
@@ -92,8 +94,8 @@ map.put("ttt","123123");
 
     @RequestMapping("/test8")
     public  ResponseEntity<ResApiDTO<?>>  test8(){
-
-               mailSender.send("1","subject1","agida0413@naver.com");
+fileService.upload(null);
+//               mailSender.send("1","subject1","agida0413@naver.com");
 
        // mailSender.send("1","subject1","agida0413@naver.com");
         return ResponseEntity
