@@ -1,6 +1,6 @@
 package com.kyj.fmk.core.controller;
 
-import com.kyj.fmk.core.async.AsyncService;
+import com.kyj.fmk.core.async.AsyncVoidInvoke;
 import com.kyj.fmk.core.cst.dto.ResApiDTO;
 import com.kyj.fmk.core.cst.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @Slf4j
@@ -25,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 public class test {
 
    private final  MailSender mailSender;
-   private final AsyncService asyncService;
+
     @RequestMapping("/test")
     public ResponseEntity<ResApiDTO<Void>> test(){
 
@@ -93,10 +92,9 @@ map.put("ttt","123123");
 
     @RequestMapping("/test8")
     public  ResponseEntity<ResApiDTO<?>>  test8(){
-//        CompletableFuture<Object> future=  asyncService.invokeAsync(mailSender,
-//                mailSender.send(),"1","subject1","agida0413@naver.com");
 
-//        future.thenAccept(result -> System.out.println("결과: " + result));
+               mailSender.send("1","subject1","agida0413@naver.com");
+
        // mailSender.send("1","subject1","agida0413@naver.com");
         return ResponseEntity
                 .ok()

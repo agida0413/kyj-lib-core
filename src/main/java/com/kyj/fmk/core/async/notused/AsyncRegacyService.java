@@ -1,9 +1,9 @@
-package com.kyj.fmk.core.async;
+package com.kyj.fmk.core.async.notused;
 
+import com.kyj.fmk.core.async.BaseAsyncHandleErr;
 import com.kyj.fmk.core.cst.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjAsncException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -49,7 +49,7 @@ public class AsyncRegacyService extends BaseAsyncHandleErr implements AsyncServi
         }, executor).exceptionally(
                 //예외 핸들링
                 ex ->{
-                    handleAsncErr(ex);
+//                    handleAsncErr(ex);
             return  null;
         });
     }

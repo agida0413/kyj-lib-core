@@ -1,5 +1,6 @@
 package com.kyj.fmk.core.mail;
 
+import com.kyj.fmk.core.async.AsyncVoidInvoke;
 import com.kyj.fmk.core.cst.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import com.kyj.fmk.core.util.RandomGenerator;
@@ -27,6 +28,7 @@ public class BaseJavaMailSender implements MailSender {
      * @param email
      */
     @Override
+    @AsyncVoidInvoke
     public void send(String templateNm,String subject, String email) {
 
         MimeMessage message= javaMailSender.createMimeMessage(); //메일링 객체 생성
