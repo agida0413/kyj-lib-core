@@ -21,7 +21,7 @@ public enum FileType {
     CODE(Arrays.asList("java", "py", "js", "ts", "html", "css", "json", "xml", "yml", "sql", "c", "cpp")),
     ETC(Arrays.asList("exe", "bat", "apk", "jar", "bin", "dat", "iso", "db", "bak"));
 
-    // ✅ 각 파일 타입에 허용되는 확장자 목록
+    // 각 파일 타입에 허용되는 확장자 목록
     private final List<String> extensions;
 
     /**

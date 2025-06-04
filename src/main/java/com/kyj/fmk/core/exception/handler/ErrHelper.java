@@ -34,7 +34,7 @@ public class ErrHelper {
      * @param ex
      * @return String
      */
-    private static String determineErrMsg(Exception ex ){
+    public static String determineErrMsg(Exception ex ){
         String code = "";
         String msg = "";
         if(ex instanceof KyjBaseException){

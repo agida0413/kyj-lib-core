@@ -4,6 +4,7 @@ import com.kyj.fmk.core.async.AsyncVoidInvoke;
 import com.kyj.fmk.core.cst.dto.ResApiDTO;
 import com.kyj.fmk.core.cst.enm.ApiErrCode;
 import com.kyj.fmk.core.cst.enm.FileType;
+import com.kyj.fmk.core.exception.custom.KyjBatException;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import com.kyj.fmk.core.file.FileService;
 import com.kyj.fmk.core.mail.MailSender;
@@ -94,12 +95,9 @@ map.put("ttt","123123");
 
     @RequestMapping("/test8")
     public  ResponseEntity<ResApiDTO<?>>  test8(){
-fileService.upload(null);
-//               mailSender.send("1","subject1","agida0413@naver.com");
-
-       // mailSender.send("1","subject1","agida0413@naver.com");
-        return ResponseEntity
-                .ok()
-                .body(null);
+            throw new KyjSysException(ApiErrCode.CM006,"DDDDDDD");
+//        return ResponseEntity
+//                .ok()
+//                .body(null);
     }
 }
