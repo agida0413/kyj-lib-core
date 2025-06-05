@@ -7,6 +7,7 @@ import com.kyj.fmk.core.exception.custom.KyjBizException;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 /**
  * 2025-05-30

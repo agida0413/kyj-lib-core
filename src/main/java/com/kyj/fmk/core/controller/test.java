@@ -11,10 +11,12 @@ import com.kyj.fmk.core.mail.MailSender;
 import com.kyj.fmk.core.util.CookieUtil;
 import com.kyj.fmk.core.util.RandomGenerator;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -94,10 +96,10 @@ map.put("ttt","123123");
 
 
     @RequestMapping("/test8")
-    public  ResponseEntity<ResApiDTO<?>>  test8(){
-            throw new KyjSysException(ApiErrCode.CM006,"DDDDDDD");
-//        return ResponseEntity
-//                .ok()
-//                .body(null);
+    public  ResponseEntity<ResApiDTO<?>>  test8(@Valid testdto testdto){
+//            throw new KyjSysException(ApiErrCode.CM006,"DDDDDDD");
+        return ResponseEntity
+                .ok()
+                .body(null);
     }
 }
