@@ -1,7 +1,7 @@
 package com.kyj.fmk.core.file;
 
 import com.kyj.fmk.core.cst.dto.ResApiDTO;
-import org.springframework.core.io.Resource;
+import com.kyj.fmk.core.cst.enm.FileType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 /**
@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
  * 파일 업로드,삭제,다운로드하기 위한 서비스
  */
 public interface FileService {
-    public void upload(MultipartFile file);
+    public String upload(MultipartFile file, FileType[] fileTypes);
     public void delete(String fileAddress);
-    public ResponseEntity<ResApiDTO<Resource>> download(String fileAddress);
+    public ResponseEntity<byte[]> download(String fileAddress);
 }

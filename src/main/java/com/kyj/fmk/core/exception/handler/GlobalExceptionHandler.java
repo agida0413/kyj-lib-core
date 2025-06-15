@@ -1,9 +1,12 @@
 package com.kyj.fmk.core.exception.handler;
 
 import com.kyj.fmk.core.cst.dto.ResApiErrDTO;
+import com.kyj.fmk.core.cst.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjAsncException;
 import com.kyj.fmk.core.exception.custom.KyjBaseException;
 import com.kyj.fmk.core.exception.custom.KyjBatException;
+import com.kyj.fmk.core.exception.custom.KyjSysException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -20,6 +23,7 @@ import java.util.List;
  * @author 김용준
  * Restful Api에서 사용하는 글로벌 익셉션 핸들러
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -56,51 +60,41 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResApiErrDTO<?>> handleValidationException(MethodArgumentNotValidException ex) {
+
         // 타입 오류???
         List<String> list = new ArrayList<>();
         ex.getBindingResult().getFieldErrors().forEach(error -> {
-           list.add(error.getDefaultMessage());
-        });
-        String msg = list.get(0);
 
-        ResApiErrDTO<Void> resApiErrDTO = new ResApiErrDTO<>(msg,HttpStatus.BAD_REQUEST.value());
+            if (error.isBindingFailure()) {
+                list.add("타입변환에 실패하였습니다.");
+            } else {
+                list.add(error.getDefaultMessage());
+            }
+        });
+        String msg = list.isEmpty() ? "잘못된 요청입니다." : list.get(0);
+        msg = list.get(0);
+
+        ResApiErrDTO<Void> resApiErrDTO = new ResApiErrDTO<>(msg, HttpStatus.BAD_REQUEST.value());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
                 .body(resApiErrDTO);
     }
-
-
-
     /**
      * 유효성 익셉션 핸들러
-     * @RequestParam, @PathVariable 변환 실패
+     * 전체 예외 (최상위)
      * @param ex
      * @return ResponseEntity
      */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResApiErrDTO<?>> handleValidationException(Exception ex) {
 
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public void handleValidationException(MethodArgumentTypeMismatchException ex) {
+        ex = new KyjSysException(ApiErrCode.CM002);
 
-        System.out.println("ex = " + ex);
-    }
-
-
-    /**
-     * 유효성 익셉션 핸들러
-     * JSON 자체 파싱 실패
-     * @param ex
-     * @return ResponseEntity
-     */
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public void handleValidationException(HttpMessageNotReadableException ex) {
-        System.out.println("ex = " + ex);
-
-//
-//        return ResponseEntity
-//                .status(HttpStatus.BAD_REQUEST.value())
-//                .body(resApiErrDTO);
+        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(ex);
+        return ResponseEntity
+                .status(HttpStatus.valueOf(resApiErrDTO.getStatus()))
+                .body(resApiErrDTO);
     }
 
 

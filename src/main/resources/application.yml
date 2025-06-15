@@ -12,7 +12,7 @@ spring:
             enable: true
 s3:
   credentials:
-    access-key: YOUR_ACCESS_KEY
-    secret-key: YOUR_SECRET_KEY
+    access-key: ''
+    secret-key: ''
     region: ap-northeast-2  # 예: 서울 리전
     bucket: ''
