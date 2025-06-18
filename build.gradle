@@ -41,6 +41,14 @@ dependencies {
 
 	// 선택 사항: Lettuce 클라이언트 (기본값)
 	implementation 'io.lettuce:lettuce-core'
+
+//	// Spring JDBC 및 트랜잭션
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+// HikariCP 커넥션 풀
+	//implementation 'com.zaxxer:HikariCP'
+
 }
 
 tasks.named('test') {
