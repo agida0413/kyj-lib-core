@@ -10,9 +10,14 @@ spring:
           auth: true
           starttls:
             enable: true
+  redis:
+    host: localhost
+    port: 6379
 s3:
   credentials:
     access-key: ''
     secret-key: ''
     region: ap-northeast-2  # 예: 서울 리전
     bucket: ''
+
+

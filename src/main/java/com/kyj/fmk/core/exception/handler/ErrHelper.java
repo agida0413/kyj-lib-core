@@ -1,13 +1,11 @@
 package com.kyj.fmk.core.exception.handler;
 
-import com.kyj.fmk.core.cst.dto.ResApiErrDTO;
-import com.kyj.fmk.core.cst.enm.ApiErrCode;
+import com.kyj.fmk.core.model.dto.ResApiErrDTO;
+import com.kyj.fmk.core.model.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjBaseException;
 import com.kyj.fmk.core.exception.custom.KyjBizException;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 /**
  * 2025-05-30

@@ -1,4 +1,4 @@
-package com.kyj.fmk.core.cst;
+package com.kyj.fmk.core.model;
 /**
  * 2025-05-29
  * @author 김용준

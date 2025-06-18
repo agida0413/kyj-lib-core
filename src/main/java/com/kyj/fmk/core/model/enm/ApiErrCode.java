@@ -1,4 +1,4 @@
-package com.kyj.fmk.core.cst.enm;
+package com.kyj.fmk.core.model.enm;
 
 import lombok.Getter;
 

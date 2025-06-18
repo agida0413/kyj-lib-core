@@ -1,4 +1,4 @@
-package com.kyj.fmk.core.cst.dto;
+package com.kyj.fmk.core.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

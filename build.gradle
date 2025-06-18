@@ -36,6 +36,11 @@ dependencies {
 	implementation platform('software.amazon.awssdk:bom:2.25.4') // 최신 BOM 버전 (2025 기준)
 	implementation 'software.amazon.awssdk:s3'
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	// Spring Boot Redis 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// 선택 사항: Lettuce 클라이언트 (기본값)
+	implementation 'io.lettuce:lettuce-core'
 }
 
 tasks.named('test') {

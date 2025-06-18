@@ -1,6 +1,6 @@
 package com.kyj.fmk.core.exception.custom;
 
-import com.kyj.fmk.core.cst.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.ApiErrCode;
 
 /**
  * 2025-05-29

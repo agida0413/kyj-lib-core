@@ -1,4 +1,4 @@
-package com.kyj.fmk.core.cst.enm;
+package com.kyj.fmk.core.model.enm;
 
 import java.util.Arrays;
 import java.util.List;

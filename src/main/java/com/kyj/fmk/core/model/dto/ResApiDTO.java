@@ -1,10 +1,9 @@
-package com.kyj.fmk.core.cst.dto;
+package com.kyj.fmk.core.model.dto;
 
-import com.kyj.fmk.core.cst.OutPutConst;
+import com.kyj.fmk.core.model.OutPutConst;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
 /**
 * 2025-05-29
 * @author 김용준

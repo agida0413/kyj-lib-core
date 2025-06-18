@@ -1,13 +1,7 @@
-package com.kyj.fmk.core.cst.dto;
+package com.kyj.fmk.core.model.dto;
 
-import com.kyj.fmk.core.cst.OutPutConst;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 /**
  * 2025-05-29

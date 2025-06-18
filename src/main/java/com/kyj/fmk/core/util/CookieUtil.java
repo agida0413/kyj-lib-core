@@ -1,6 +1,6 @@
 package com.kyj.fmk.core.util;
 
-import com.kyj.fmk.core.cst.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,7 +1,6 @@
 package com.kyj.fmk.core.file;
 
-import com.kyj.fmk.core.cst.dto.ResApiDTO;
-import com.kyj.fmk.core.cst.enm.FileType;
+import com.kyj.fmk.core.model.enm.FileType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 /**
