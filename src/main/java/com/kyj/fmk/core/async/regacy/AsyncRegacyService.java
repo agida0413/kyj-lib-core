@@ -1,6 +1,6 @@
-package com.kyj.fmk.core.async.notused;
+package com.kyj.fmk.core.async.regacy;
 
-import com.kyj.fmk.core.async.BaseAsyncHandleErr;
+import com.kyj.fmk.core.async.err.BaseAsyncHandleErr;
 import com.kyj.fmk.core.model.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjAsncException;
 import lombok.RequiredArgsConstructor;

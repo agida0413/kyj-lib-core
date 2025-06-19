@@ -1,5 +1,7 @@
 package com.kyj.fmk.core.controller;
 
+import com.kyj.fmk.core.controller.mapper.Repo;
+import com.kyj.fmk.core.controller.mapper.TestMapper;
 import com.kyj.fmk.core.model.dto.ResApiDTO;
 import com.kyj.fmk.core.model.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
@@ -27,6 +29,7 @@ public class test {
    private final  MailSender mailSender;
 //    private final FileService fileService;
     private final RedisTemplate<String ,Object> redisTemplate;
+    private final Repo repo;
 private final TestService testService;
     @RequestMapping("/test")
     public ResponseEntity<ResApiDTO<Void>> test(){
@@ -125,5 +128,21 @@ map.put("ttt","123123");
     public  String test11(@RequestParam String param){
 
     return testService.cachD(param);
+    }
+
+    @RequestMapping("/test15")
+    public  String test15(){
+        try {
+            Test2DTO str= repo.selectTest();
+            return  str.getI33();
+        } catch (Exception e) {
+            log.info("e={}",e);
+            log.info("e={}",e.getMessage());
+            log.info("e={}",e.getCause());
+            log.info("e={}",e.fillInStackTrace());
+        }
+
+
+    return "k";
     }
 }

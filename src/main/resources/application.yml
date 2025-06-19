@@ -13,6 +13,18 @@ spring:
   redis:
     host: localhost
     port: 6379
+  datasource:
+    url: jdbc:mysql://localhost:3306test?useSSL=false
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mybatis:
+    mapper-locations: classpath:mapper/**/*.xml
+    type-aliases-package: com.kyj.fmk.core.controller
+    configuration:
+      map-underscore-to-camel-case: true
+
 s3:
   credentials:
     access-key: ''

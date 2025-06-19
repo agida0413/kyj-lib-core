@@ -6,6 +6,7 @@ import com.kyj.fmk.core.exception.custom.KyjBaseException;
 import com.kyj.fmk.core.exception.custom.KyjBatException;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -83,20 +84,28 @@ public class GlobalExceptionHandler {
      * @param ex
      * @return ResponseEntity
      */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResApiErrDTO<?>> handleValidationException(Exception ex) {
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ResApiErrDTO<?>> handleValidationException(Exception ex) {
+//
+//        ex = new KyjSysException(ApiErrCode.CM002);
+//        log.info("ex={}",ex);
+//        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(ex);
+//        return ResponseEntity
+//                .status(HttpStatus.valueOf(resApiErrDTO.getStatus()))
+//                .body(resApiErrDTO);
+//    }
 
-        ex = new KyjSysException(ApiErrCode.CM002);
 
-        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(ex);
+
+    @ExceptionHandler(MyBatisSystemException.class)
+    public ResponseEntity<ResApiErrDTO<?>> handleValidationException(MyBatisSystemException ex) {
+        log.info("ex={}",ex);
+
+        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(new KyjSysException(ApiErrCode.CM002));
         return ResponseEntity
                 .status(HttpStatus.valueOf(resApiErrDTO.getStatus()))
                 .body(resApiErrDTO);
     }
-
-
-
-
 
 
 }

@@ -1,5 +1,6 @@
-package com.kyj.fmk.core.async;
+package com.kyj.fmk.core.async.advisor;
 
+import com.kyj.fmk.core.async.err.AsyncHandleErr;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,7 +28,7 @@ public class AsyncInvokeAspect {
      * 리턴값이 null인 메소드
      * @param joinPoint
      */
-    @Around("@annotation(com.kyj.fmk.core.async.AsyncVoidInvoke)") // Pointcut
+    @Around("@annotation(com.kyj.fmk.core.async.annotation.AsyncVoidInvoke)") // Pointcut
     public void around(ProceedingJoinPoint joinPoint){
         //Advice로직
         CompletableFuture<Object> future = new CompletableFuture<>();

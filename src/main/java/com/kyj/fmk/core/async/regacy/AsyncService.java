@@ -1,4 +1,4 @@
-package com.kyj.fmk.core.async.notused;
+package com.kyj.fmk.core.async.regacy;
 
 import java.util.concurrent.CompletableFuture;
 /**

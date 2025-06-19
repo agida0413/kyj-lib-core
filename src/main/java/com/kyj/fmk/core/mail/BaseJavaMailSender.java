@@ -1,6 +1,6 @@
 package com.kyj.fmk.core.mail;
 
-import com.kyj.fmk.core.async.AsyncVoidInvoke;
+import com.kyj.fmk.core.async.annotation.AsyncVoidInvoke;
 import com.kyj.fmk.core.model.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import com.kyj.fmk.core.util.RandomGenerator;

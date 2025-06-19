@@ -13,6 +13,11 @@
 //import java.util.HashMap;
 //import java.util.Map;
 //
+/**
+ * 2025-06-18
+ * @author 김용준
+ * Restful Api에서 사용하는 DataSourceConfig
+ */
 ////@Configuration
 //@Profile("prd")
 //public class DataSourceConfig {
@@ -41,6 +46,10 @@
 //    @Value("${spring.read-datasource.driver-class-name}")
 //    private String readDbDriverClassName;
 //
+
+/**
+ * Write DB에 대한 DataSource 빈
+ */
 //    @Primary
 //    @Bean(name = "writeDataSource")
 //    public DataSource writeDataSource() {
@@ -52,6 +61,9 @@
 //        return dataSource;
 //    }
 //
+/**
+ * ReadOnly DB에 대한 DataSource 빈
+ */
 //    @Bean(name = "readDataSource")
 //    public DataSource readDataSource() {
 //        HikariDataSource dataSource = new HikariDataSource();
@@ -63,11 +75,17 @@
 //    }
 //
 //
+/**
+ * 트랜잭션 시작시 데이터소스를 결정하기 위한 지연프록시
+ */
 //    @Bean
 //    public DataSource dataSource() {
 //        return new LazyConnectionDataSourceProxy(routingDataSource());
 //    }
 //
+/**
+ * 동적라우팅소스
+ */
 //    private AbstractRoutingDataSource routingDataSource() {
 //        CustomRoutingDataSource routingDataSource = new CustomRoutingDataSource();
 //        Map<Object, Object> targetDataSources = new HashMap<>();
