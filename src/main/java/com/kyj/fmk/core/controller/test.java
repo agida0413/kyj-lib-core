@@ -2,10 +2,12 @@ package com.kyj.fmk.core.controller;
 
 import com.kyj.fmk.core.controller.mapper.Repo;
 import com.kyj.fmk.core.controller.mapper.TestMapper;
+import com.kyj.fmk.core.exception.custom.KyjBizException;
 import com.kyj.fmk.core.model.dto.ResApiDTO;
 import com.kyj.fmk.core.model.enm.ApiErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import com.kyj.fmk.core.mail.MailSender;
+import com.kyj.fmk.core.tx.annotation.DtbLock;
 import com.kyj.fmk.core.util.CookieUtil;
 import com.kyj.fmk.core.util.RandomGenerator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -131,18 +134,17 @@ map.put("ttt","123123");
     }
 
     @RequestMapping("/test15")
-    public  String test15(){
+    @Transactional
+    @DtbLock
+    public  Test2DTO test15(){
+        Test2DTO test2DTO = repo.selectTest();
+
         try {
-            Test2DTO str= repo.selectTest();
-            return  str.getI33();
-        } catch (Exception e) {
-            log.info("e={}",e);
-            log.info("e={}",e.getMessage());
-            log.info("e={}",e.getCause());
-            log.info("e={}",e.fillInStackTrace());
+            Thread.sleep(35000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        return test2DTO;
 
-
-    return "k";
     }
 }

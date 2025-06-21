@@ -15,22 +15,6 @@ import java.net.URL;
 public class CoreApplication {
 
 	public static void main(String[] args) {
-        Resource[] resources = null;
-        try {
-            resources = new PathMatchingResourcePatternResolver()
-                    .getResources("classpath:mapper/**/*.xml");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-		System.out.println("resources = " + resources.length);
-        for (Resource resource : resources) {
-			System.out.println("로드된 매퍼 XML: " + resource.getFilename());
-            try {
-                System.out.println("resource.getURL() = " + resource.getURL());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
 		SpringApplication.run(CoreApplication.class, args);
 	}
 

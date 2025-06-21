@@ -4,7 +4,7 @@
 <mapper namespace="com.kyj.fmk.core.controller.mapper.TestMapper">
 
     <select id="selectTest123" resultType="Test2DTO">
-        SELECT 1 AS i33 from dual
+        SELECT 'test' AS i33 from dual
     </select>
 
 

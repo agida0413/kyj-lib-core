@@ -14,22 +14,29 @@ spring:
     host: localhost
     port: 6379
   datasource:
-    url: jdbc:mysql://localhost:3306test?useSSL=false
+    url: jdbc:log4jdbc:mysql://localhost:3306/test?useSSL=false
     username: root
     password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
-  mybatis:
-    mapper-locations: classpath:mapper/**/*.xml
-    type-aliases-package: com.kyj.fmk.core.controller
-    configuration:
-      map-underscore-to-camel-case: true
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.kyj.*
+  configuration:
+    map-underscore-to-camel-case: true
 
 s3:
   credentials:
     access-key: ''
     secret-key: ''
-    region: ap-northeast-2  # 예: 서울 리전
+    region: ap-northeast-2
     bucket: ''
 
-
+logging:
+  level:
+    jdbc.sqltiming: DEBUG       # SQL + 파라미터 + 실행 시간
+    jdbc.resultsettable: DEBUG  # 쿼리 결과 컬럼값
+    jdbc.sqlonly: OFF
+    jdbc.audit: OFF
+    jdbc.resultset: OFF
+    jdbc.connection: OFF
