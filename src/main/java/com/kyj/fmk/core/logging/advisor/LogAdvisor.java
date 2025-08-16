@@ -31,6 +31,13 @@ public class LogAdvisor {
     public void repositoryMethods() {}
 
     // 공통 어드바이스 정의
+
+    /**
+     * 로그를 기록하기 위한 메서드
+     * @param joinPoint
+     * @return
+     * @throws Throwable
+     */
     @Around("controllerMethods() || serviceMethods() || repositoryMethods()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();

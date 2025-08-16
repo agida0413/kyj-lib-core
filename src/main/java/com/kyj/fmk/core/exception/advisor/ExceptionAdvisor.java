@@ -2,16 +2,14 @@ package com.kyj.fmk.core.exception.advisor;
 
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import com.kyj.fmk.core.exception.handler.ExceptionPostProcess;
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+
 /**
  * 2025-05-29
  * @author 김용준
@@ -37,14 +35,12 @@ public class ExceptionAdvisor {
 
         }
         catch (Exception e){
-            ex = new KyjSysException(ApiErrCode.CM002);
+            ex = new KyjSysException(CmErrCode.CM002);
         }
 
         ex.printStackTrace();
 
         exceptionPostProcess.proceed(joinPoint);
-        
-        
         
     }
 }

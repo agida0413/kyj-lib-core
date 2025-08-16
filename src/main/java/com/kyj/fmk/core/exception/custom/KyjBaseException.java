@@ -1,6 +1,7 @@
 package com.kyj.fmk.core.exception.custom;
 
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.ErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -18,7 +19,7 @@ public class KyjBaseException extends RuntimeException{
      *
      * @param apiErrCode
      */
-    public KyjBaseException(ApiErrCode apiErrCode) {
+    public KyjBaseException(ErrCode apiErrCode) {
         super(apiErrCode.getCode());
         // 상수 에러코드
         this.msg=msg;
@@ -29,7 +30,7 @@ public class KyjBaseException extends RuntimeException{
      * @param errCode
      * @param msg
      */
-    public KyjBaseException(ApiErrCode errCode, String msg) {
+    public KyjBaseException(ErrCode errCode, String msg) {
         super(msg);
         this.msg = msg;
         this.code = errCode.getCode(); // enum에서 code 추출

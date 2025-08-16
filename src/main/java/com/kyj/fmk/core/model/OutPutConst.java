@@ -7,4 +7,6 @@ package com.kyj.fmk.core.model;
 public class OutPutConst {
     //응답성공 메시지
     public static final String SucMsg = "Success Request!";
+
+
 }

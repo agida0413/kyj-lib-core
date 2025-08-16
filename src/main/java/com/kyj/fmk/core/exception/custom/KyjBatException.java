@@ -1,6 +1,7 @@
 package com.kyj.fmk.core.exception.custom;
 
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.ErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 
 /**
  * 2025-05-29
@@ -12,7 +13,7 @@ public class KyjBatException extends KyjBaseException{
      *
      * @param apiErrCode
      */
-    public KyjBatException(ApiErrCode apiErrCode){
+    public KyjBatException(ErrCode apiErrCode){
         super(apiErrCode);
         this.setCode(apiErrCode.getCode());
 
@@ -23,7 +24,7 @@ public class KyjBatException extends KyjBaseException{
      * @param errCode
      * @param msg
      */
-    public KyjBatException(ApiErrCode errCode, String msg){
+    public KyjBatException(ErrCode errCode, String msg){
         super(errCode,msg);
         this.setMsg(msg);
         this.setCode(errCode.getCode());

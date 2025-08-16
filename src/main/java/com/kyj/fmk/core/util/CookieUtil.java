@@ -1,9 +1,10 @@
 package com.kyj.fmk.core.util;
 
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 
@@ -12,7 +13,21 @@ import org.springframework.http.ResponseCookie;
  * @author 김용준
  * Restful Api에서 사용하는 쿠키관련 유틸클래스
  */
+@RequiredArgsConstructor
 public class CookieUtil {
+
+    private static final boolean isLocal;
+
+    static {
+
+        // system property 우선 읽고 없으면 environment variable 읽기
+        String activeProfile = System.getProperty("spring.profiles.active");
+        if (activeProfile == null) {
+            activeProfile = System.getenv("SPRING_PROFILES_ACTIVE");
+        }
+        isLocal = "local".equalsIgnoreCase(activeProfile);
+    }
+
 
     /**
      * 서블릿 리퀘스트로부터 쿠키를 읽는 메소드
@@ -35,7 +50,7 @@ public class CookieUtil {
                     }
                 }
             }catch (Exception e){
-                throw new KyjSysException(ApiErrCode.CM003);
+                throw new KyjSysException(CmErrCode.CM003);
             }
 
 
@@ -67,12 +82,21 @@ public class CookieUtil {
      */
         public static ResponseCookie createCookie(String key, String value, int age ,String path) {//저장할 쿠키의 키값과 밸류를 매개변수로 받음
 
-            ResponseCookie cookie = ResponseCookie.from(key, value)
+
+
+            ResponseCookie.ResponseCookieBuilder builder = ResponseCookie.from(key, value)
                     .httpOnly(true)
-                   // .secure(true)  // HTTPS 사용할 경우 true
                     .path(path)
-                    .maxAge(age)  // 1시간
-                    .build();
+                    .maxAge(age)
+                    .sameSite(isLocal ? "Lax" : "None");
+            System.out.println("isLocal = " + isLocal);
+                if (isLocal) {
+                    builder.secure(false);
+                } else {
+                    builder.secure(true);
+                }
+
+            ResponseCookie cookie = builder.build();
 
             return  cookie;
         }
@@ -95,14 +119,23 @@ public class CookieUtil {
      * @return
      */
         public static ResponseCookie deleteCookie(String key,String path) {
-            ResponseCookie cookie = ResponseCookie.from(key, null)
-                    .httpOnly(true)
-                    // .secure(true)  // HTTPS 사용할 경우 true
-                    .path(path)
-                    .maxAge(0)  // 1시간
-                    .build();
 
-            return cookie;
+
+            ResponseCookie.ResponseCookieBuilder builder = ResponseCookie.from(key, null)
+                    .httpOnly(true)
+                    .path(path)
+                    .maxAge(0)
+                    .sameSite(isLocal ? "Lax" : "None");
+
+            if (isLocal) {
+                builder.secure(false);
+            } else {
+                builder.secure(true);
+            }
+
+            ResponseCookie cookie = builder.build();
+
+            return  cookie;
         }
 
     /**

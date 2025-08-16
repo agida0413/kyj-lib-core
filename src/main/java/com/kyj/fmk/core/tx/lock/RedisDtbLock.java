@@ -2,7 +2,7 @@ package com.kyj.fmk.core.tx.lock;
 
 
 import com.kyj.fmk.core.exception.custom.KyjSysException;
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -48,7 +48,7 @@ public class RedisDtbLock implements DtbLock {
         }
 
         if(!acquired){
-            throw new KyjSysException(ApiErrCode.CM012);
+            throw new KyjSysException(CmErrCode.CM012);
         }
         return acquired;
 

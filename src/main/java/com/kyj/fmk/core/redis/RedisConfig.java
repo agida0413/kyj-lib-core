@@ -50,7 +50,7 @@ public class RedisConfig {
 
         template.setKeySerializer(new StringRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
+        template.setHashValueSerializer(new StringRedisSerializer());
         template.setValueSerializer(new StringRedisSerializer());
         template.afterPropertiesSet();
 
@@ -76,16 +76,12 @@ public class RedisConfig {
         @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
            //@EnableCaching   상위애플리케이션 메인에서 정의
-            ObjectMapper objectMapper = getObjectMapper();
-
-        // Jackson2JsonRedisSerializer를 사용하여 ResApiDTO 타입 직렬화
-        Jackson2JsonRedisSerializer<ResApiDTO> serializer = new Jackson2JsonRedisSerializer<>(ResApiDTO.class);
 
         // Redis 캐시 설정 (TTL 60초)
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofSeconds(60))  // TTL 설정
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));  // Jackson2JsonRedisSerializer 적용
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(config)

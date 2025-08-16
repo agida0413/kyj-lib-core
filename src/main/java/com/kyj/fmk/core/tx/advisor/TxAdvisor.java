@@ -2,15 +2,13 @@ package com.kyj.fmk.core.tx.advisor;
 
 //import com.kyj.fmk.core.tx.dataSource.DataSourceContextHolder;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import com.kyj.fmk.core.tx.lock.DtbLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 /**
@@ -60,7 +58,6 @@ public class TxAdvisor {
     public static class TxAspect{
         @Around("@annotation(org.springframework.transaction.annotation.Transactional)")
         public Object manageTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
-            log.info("sdasdsa");
             return joinPoint.proceed();
         }
     }
@@ -87,17 +84,17 @@ public class TxAdvisor {
               result = joinPoint.proceed();
               isNotTimeOut = dtbLock.isNotTimeOut(joinPoint.getSignature().getName());
             } catch (Exception e) {
-                throw new KyjSysException(ApiErrCode.CM012);
+                throw new KyjSysException(CmErrCode.CM012);
             }
             finally {
                 if(isNotTimeOut){
                     dtbLock.deleteLock(joinPoint.getSignature().getName());
                 }else{
-                    throw new KyjSysException(ApiErrCode.CM002);
+                    throw new KyjSysException(CmErrCode.CM002);
                 }
             }
         }else{
-            throw new KyjSysException(ApiErrCode.CM012);
+            throw new KyjSysException(CmErrCode.CM012);
         }
 
 

@@ -1,5 +1,6 @@
 package com.kyj.fmk.core.model.dto;
 
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -15,9 +16,10 @@ public class ResApiErrDTO <T> extends BaseResDTO{
      * @param msg
      * @param status
      */
-    public ResApiErrDTO(String msg,int status){
+    public ResApiErrDTO(String msg, int status, String apiErrCode){
         this.setMsg(msg);
         this.setStatus(status);
+        this.setCode(apiErrCode);
     }
 
     /**
@@ -37,10 +39,11 @@ public class ResApiErrDTO <T> extends BaseResDTO{
      * @param status
      * @param data
      */
-    public ResApiErrDTO(String msg, int status, T data){
+    public ResApiErrDTO(String msg, int status, T data, String apiErrCode){
         this.setMsg(msg);
         this.setData(data);
         this.setStatus(status);
+        this.setCode(apiErrCode);
     }
 
     /**
@@ -48,6 +51,7 @@ public class ResApiErrDTO <T> extends BaseResDTO{
      */
     private void setDefaultVal(){
         this.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        this.setCode(CmErrCode.CM002.getCode());
     }
 
 }

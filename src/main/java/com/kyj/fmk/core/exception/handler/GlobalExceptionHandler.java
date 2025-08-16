@@ -1,7 +1,7 @@
 package com.kyj.fmk.core.exception.handler;
 
 import com.kyj.fmk.core.model.dto.ResApiErrDTO;
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import com.kyj.fmk.core.exception.custom.KyjBaseException;
 import com.kyj.fmk.core.exception.custom.KyjBatException;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
         String msg = list.isEmpty() ? "잘못된 요청입니다." : list.get(0);
         msg = list.get(0);
 
-        ResApiErrDTO<Void> resApiErrDTO = new ResApiErrDTO<>(msg, HttpStatus.BAD_REQUEST.value());
+        ResApiErrDTO<Void> resApiErrDTO = new ResApiErrDTO<>(msg, HttpStatus.BAD_REQUEST.value(), CmErrCode.CM013.getCode());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
@@ -84,24 +84,27 @@ public class GlobalExceptionHandler {
      * @param ex
      * @return ResponseEntity
      */
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ResApiErrDTO<?>> handleValidationException(Exception ex) {
-//
-//        ex = new KyjSysException(ApiErrCode.CM002);
-//        log.info("ex={}",ex);
-//        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(ex);
-//        return ResponseEntity
-//                .status(HttpStatus.valueOf(resApiErrDTO.getStatus()))
-//                .body(resApiErrDTO);
-//    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResApiErrDTO<?>> handleValidationException(Exception ex) {
+
+        ex = new KyjSysException(CmErrCode.CM002);
+        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(ex);
+        return ResponseEntity
+                .status(HttpStatus.valueOf(resApiErrDTO.getStatus()))
+                .body(resApiErrDTO);
+    }
 
 
-
+    /**
+     * sql예외
+     *
+     * @param ex
+     * @return ResponseEntity
+     */
     @ExceptionHandler(MyBatisSystemException.class)
     public ResponseEntity<ResApiErrDTO<?>> handleValidationException(MyBatisSystemException ex) {
-        log.info("ex={}",ex);
 
-        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(new KyjSysException(ApiErrCode.CM002));
+        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(new KyjSysException(CmErrCode.CM002));
         return ResponseEntity
                 .status(HttpStatus.valueOf(resApiErrDTO.getStatus()))
                 .body(resApiErrDTO);

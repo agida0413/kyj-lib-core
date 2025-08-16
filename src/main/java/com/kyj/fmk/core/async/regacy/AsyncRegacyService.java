@@ -1,7 +1,7 @@
 package com.kyj.fmk.core.async.regacy;
 
 import com.kyj.fmk.core.async.err.BaseAsyncHandleErr;
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import com.kyj.fmk.core.exception.custom.KyjAsncException;
 import lombok.RequiredArgsConstructor;
 
@@ -44,7 +44,7 @@ public class AsyncRegacyService extends BaseAsyncHandleErr implements AsyncServi
 
                 return method.invoke(target, args);
             } catch (Exception e) {
-                throw new KyjAsncException(ApiErrCode.CM006);
+                throw new KyjAsncException(CmErrCode.CM006);
             }
         }, executor).exceptionally(
                 //예외 핸들링

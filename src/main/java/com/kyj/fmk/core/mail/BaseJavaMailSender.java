@@ -1,7 +1,7 @@
 package com.kyj.fmk.core.mail;
 
 import com.kyj.fmk.core.async.annotation.AsyncVoidInvoke;
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 import com.kyj.fmk.core.util.RandomGenerator;
 import jakarta.mail.MessagingException;
@@ -43,7 +43,7 @@ public class BaseJavaMailSender implements MailSender {
 
             javaMailSender.send(message);//전송
         } catch (MessagingException e) {
-            throw new KyjSysException(ApiErrCode.CM005);
+            throw new KyjSysException(CmErrCode.CM005);
         }
 
     }

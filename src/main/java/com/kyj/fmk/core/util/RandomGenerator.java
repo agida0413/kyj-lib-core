@@ -1,6 +1,6 @@
 package com.kyj.fmk.core.util;
 
-import com.kyj.fmk.core.model.enm.ApiErrCode;
+import com.kyj.fmk.core.model.enm.CmErrCode;
 import com.kyj.fmk.core.exception.custom.KyjSysException;
 
 import java.security.SecureRandom;
@@ -30,7 +30,7 @@ public class RandomGenerator {
     public static String generateRandom(int size) {
 
         if(size < 1 || size >100){
-            throw new KyjSysException(ApiErrCode.CM004);
+            throw new KyjSysException(CmErrCode.CM004);
         }
 
         //최소숫자하나 포함 , 소문자하나포함 ,대문자하나포함 , 특수문자 포함 총 4자리
