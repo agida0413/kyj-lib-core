@@ -72,7 +72,7 @@ dependencies {
 
 ### Maven Repository 설정
 
-프로젝트의 `build.gradle`에 다음 저장소를 추가하세요:
+프로젝트의 `build.gradle`에 다음 저장소를 추가
 
 ```gradle
 repositories {
@@ -152,14 +152,9 @@ spring:
     password: your-password
 ```
 
-## 🤝 기여하기
 
-이 프로젝트는 사이드 프로젝트의 개발 효율성을 높이기 위한 목적으로 만들어졌습니다. 개선사항이나 버그 발견 시 이슈를 등록해 주세요.
-
-## 📝 라이선스
 
 이 프로젝트는 개인 사이드 프로젝트용으로 개발되었습니다.
 
 ---
 
-**Made with ❤️ for faster side project development**
