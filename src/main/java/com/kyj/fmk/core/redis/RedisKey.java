@@ -17,17 +17,34 @@ public class RedisKey {
     public static final String MEMBER_ADDITIONL_INFO="member:joinJwt:";
 
 
-    //커스터 마이징 부분
-//    /**
-//     * 공통코드(커뮤니케이션톤) 조회를  위한 해시키
-//     */
-//    public static final String  CM_CMC_TONE_CD="cm_cmc_tone_cd";
+    /**
+     * 공통코드 조회를  위한 해시키
+     */
+    public static final String  CM_BTL_STATUS_CODE="CM_BTL_STATUS_CODE";
 
+    public static final String  CM_EVENT_STATUS_CODE="CM_EVENT_STATUS_CODE";
 
+    public static final String  CM_OCEAN_CODE="CM_OCEAN_CODE";
 
+    public static final String  CM_PARTICLE_CODE="CM_PARTICLE_CODE";
 
+    public static final String  CM_SKY_CODE="CM_SKY_CODE";
+
+    public static final String  CM_TIME_CODE="CM_TIME_CODE";
+
+    //웹소켓 세션관리
+    public static final String WS_SESSION_Z_SET_KEY = "WS_SESSIONS";
+
+    public static final String GEO_MEMBER = "GEO:MEMBER";
+
+    public static final String GEO_BOTTLE = "GEO:BOTTLE";
 
 //-----------------------------------------suffix -----------------------------------------------------------------------------------
+
+
+    //-------------------------------------expire----------------------------------------------------------------------//
+
+    public static final long WS_SESSION_EXPIRE_MS = 5 * 60 * 1000; //5분
 
 
 }
