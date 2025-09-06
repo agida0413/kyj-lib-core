@@ -1,11 +1,7 @@
 package com.kyj.fmk.core.service.cmcd;
 
 import com.kyj.fmk.core.model.cmcd.req.ReqCommonCdDTO;
-import com.kyj.fmk.core.model.cmcd.req.ReqSkillCdDTO;
-import com.kyj.fmk.core.model.cmcd.res.ResCommonCdDTO;
-import com.kyj.fmk.core.model.cmcd.res.ResSkillCdDTO;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +17,5 @@ public interface CmCdRedisService {
      * @return
      */
     public Map<String, String> selectRedisCmCdMap(ReqCommonCdDTO reqCommonCdDTO);
-
 
 }
