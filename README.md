@@ -28,14 +28,7 @@ KYJ Core는 Spring Boot 기반의 웹 애플리케이션 개발 시 반복적으
 - **S3 연동**: AWS S3 객체 스토리지 연동
 - **파일 검증**: 업로드 파일 유효성 검사
 
-### 🔐 보안 및 인증
-- **Spring Security**: 기본 보안 설정
-- **OAuth2**: 소셜 로그인 연동
-- **JWT**: JSON Web Token 처리
 
-### 📊 모니터링
-- **Spring Actuator**: 애플리케이션 헬스체크
-- **Prometheus**: 메트릭 수집 및 모니터링
 
 ### 🔄 비동기 처리
 - **Kafka**: 메시지 큐 연동
@@ -51,8 +44,6 @@ KYJ Core는 Spring Boot 기반의 웹 애플리케이션 개발 시 반복적으
 
 - **Java 17**
 - **Spring Boot 3.5.3**
-- **Spring Security**
-- **MyBatis**
 - **Redis (Lettuce)**
 - **AWS S3 SDK**
 - **Kafka**
@@ -130,27 +121,6 @@ private MailSender mailSender;
 mailSender.send("welcome-template", "환영합니다!", "user@example.com");
 ```
 
-## ⚙️ 설정 요구사항
-
-애플리케이션에서 다음과 같은 설정이 필요합니다:
-
-```yaml
-spring:
-  redis:
-    host: localhost
-    port: 6379
-  
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: your-email@gmail.com
-    password: your-app-password
-    
-  datasource:
-    url: jdbc:mysql://localhost:3306/your-database
-    username: your-username
-    password: your-password
-```
 
 
 
