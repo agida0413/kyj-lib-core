@@ -1,5 +1,6 @@
 package com.kyj.core.file;
 
+import com.kyj.core.file.util.FileType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 /**

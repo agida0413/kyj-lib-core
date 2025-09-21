@@ -9,7 +9,7 @@ pipeline {
     parameters {
         choice(
             name: 'DEPLOY_TYPE',
-            choices: ['CORE_ONLY', 'WITH_KAFKA', 'WITH_REDIS', 'WITH_FILE', 'WITH_JPA', 'ALL_MODULES'],
+            choices: ['CORE_ONLY', 'WITH_KAFKA', 'WITH_REDIS', 'WITH_FILE', 'WITH_JPA', 'WITH_RDB', 'ALL_MODULES'],
             description: '배포할 모듈 선택'
         )
         choice(
@@ -107,6 +107,10 @@ pipeline {
                         case 'WITH_JPA':
                             deployCommand = "./gradlew publishWithJpa"
                             echo "코어 + JPA 모듈을 배포합니다."
+                            break
+                        case 'WITH_RDB':
+                            deployCommand = "./gradlew publishWithRdb"
+                            echo "코어 + RDB 모듈을 배포합니다."
                             break
                         case 'ALL_MODULES':
                             deployCommand = "./gradlew publishAll"

@@ -32,7 +32,7 @@ public class AsyncInvokeAspect {
      * 리턴값이 null인 메소드
      * @param joinPoint
      */
-    @Around("@annotation(com.kyj.fmk.core.async.annotation.AsyncVoidInvoke)") // Pointcut
+    @Around("@annotation(com.kyj.core.async.annotation.AsyncVoidInvoke)") // Pointcut
     public void around(ProceedingJoinPoint joinPoint){
         //Advice로직
         CompletableFuture<Object> future = new CompletableFuture<>();

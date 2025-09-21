@@ -1,4 +1,4 @@
-package com.kyj.core.tx.annotation;
+package com.kyj.core.rdb.tx.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,9 +7,9 @@ import java.lang.annotation.Target;
 /**
  * 2025-06-18
  * @author 김용준
- * Restful Api에서 사용하는 WriteDB 어노테이션
+ * Restful Api에서 사용하는 ReadOnlyDB 어노테이션
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface WriteDB {
+public @interface ReadOnlyDB {
 }

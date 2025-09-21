@@ -5,7 +5,7 @@ import com.kyj.core.exception.custom.KyjBizException;
 import com.kyj.core.exception.custom.KyjSysException;
 import com.kyj.core.file.FileService;
 import com.kyj.core.api.CmErrCode;
-import com.kyj.core.file.FileType;
+import com.kyj.core.file.util.FileType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
