@@ -7,6 +7,7 @@ import com.kyj.core.security.auth.exception.SecurityException;
 import com.kyj.core.security.auth.jwt.AuthJWTUtil;
 import com.kyj.core.security.auth.util.SecurityResponseUtil;
 import com.kyj.core.util.CookieUtil;
+import com.kyj.core.security.auth.util.ResponseCookieHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +90,7 @@ public class AuthTokenServiceImpl implements AuthTokenService {
     @Override
     public boolean reissueTokens(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String refreshToken = CookieUtil.getCookieValue(request, "refresh");
+            String refreshToken = (String) CookieUtil.getCookie("refresh", request);
 
             if (!StringUtils.hasText(refreshToken)) {
                 SecurityResponseUtil.writeErrorResponse(response, HttpStatus.UNAUTHORIZED, SecurityErrorCode.SEC006);
@@ -130,15 +131,15 @@ public class AuthTokenServiceImpl implements AuthTokenService {
             deleteRefreshToken(userId, refreshToken);
             addRefreshToken(userId, newRefreshToken);
 
-            CookieUtil.addCookie(response, "Authorization", newAccessToken, 3600);
-            CookieUtil.addCookie(response, "refresh", newRefreshToken, 86400);
+            ResponseCookieHelper.addCookie(response, "Authorization", newAccessToken, 3600);
+            ResponseCookieHelper.addCookie(response, "refresh", newRefreshToken, 86400);
 
             log.info("토큰 재발급 성공: userId={}", userId);
             return true;
 
         } catch (Exception e) {
             log.error("토큰 재발급 실패: {}", e.getMessage());
-            SecurityResponseUtil.writeErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, SecurityErrorCode.SEC050);
+            SecurityResponseUtil.writeErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, SecurityErrorCode.SEC032);
             return false;
         }
     }
@@ -146,8 +147,8 @@ public class AuthTokenServiceImpl implements AuthTokenService {
     @Override
     public boolean logout(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String accessToken = CookieUtil.getCookieValue(request, "Authorization");
-            String refreshToken = CookieUtil.getCookieValue(request, "refresh");
+            String accessToken = (String) CookieUtil.getCookie("Authorization", request);
+            String refreshToken = (String) CookieUtil.getCookie("refresh", request);
 
             if (StringUtils.hasText(accessToken)) {
                 addToBlacklist(accessToken);
@@ -163,15 +164,15 @@ public class AuthTokenServiceImpl implements AuthTokenService {
                 }
             }
 
-            CookieUtil.deleteCookie(response, "Authorization");
-            CookieUtil.deleteCookie(response, "refresh");
+            ResponseCookieHelper.deleteCookie(response, "Authorization");
+            ResponseCookieHelper.deleteCookie(response, "refresh");
 
             log.info("로그아웃 성공");
             return true;
 
         } catch (Exception e) {
             log.error("로그아웃 실패: {}", e.getMessage());
-            SecurityResponseUtil.writeErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, SecurityErrorCode.SEC050);
+            SecurityResponseUtil.writeErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, SecurityErrorCode.SEC032);
             return false;
         }
     }

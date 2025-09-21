@@ -8,11 +8,11 @@ package com.kyj.core.security.client.exception;
 public class JwtException extends SecurityClientException {
 
     public JwtException() {
-        super(SecurityErrCode.SEC_JWT_001);
+        super(SecurityErrCode.SEC002);
     }
 
     public JwtException(String customMessage) {
-        super(SecurityErrCode.SEC_JWT_001, customMessage);
+        super(SecurityErrCode.SEC002, customMessage);
     }
 
     public JwtException(SecurityErrCode errorCode) {
