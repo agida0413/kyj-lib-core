@@ -1,93 +1,98 @@
 plugins {
-	id 'java-library'
-	id 'maven-publish'
 	id 'io.spring.dependency-management' version '1.1.7'
-}
-group = 'com.kyj.fmk'
-version = "0.0.1-SNAPSHOT"
-
-java {
-	withSourcesJar()
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+	id 'maven-publish'
 }
 
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.3"
-	}
-}
+// 공통 설정
+allprojects {
+	group = 'com.kyj'
+	version = '0.0.1-SNAPSHOT'
 
-repositories {
-	mavenCentral()
-}
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
 	repositories {
-		maven {
-			url = uri("http://192.168.56.1:9090/repository/bottle-story/")
-			credentials {
-				username = "admin"
-				password = "1234"
+		mavenCentral()
+	}
+
+	apply plugin: 'java-library'
+	apply plugin: 'maven-publish'
+	apply plugin: 'io.spring.dependency-management'
+
+	java {
+		withSourcesJar()
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(17)
+		}
+	}
+
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.3"
+		}
+	}
+
+	// 공통 publishing 설정
+	publishing {
+		repositories {
+			maven {
+				url = uri("http://100.114.34.71:9090/repository/kyj-lib-core/")
+				credentials {
+					username = "admin"
+					password = "1234"
+				}
+				allowInsecureProtocol = true
 			}
-			allowInsecureProtocol = true
 		}
 	}
 }
-dependencies {
-		//s3
-	    api 'software.amazon.awssdk:s3:2.27.2'
-		api 'software.amazon.awssdk:url-connection-client:2.27.2'
-		//카프카
-	    api 'org.springframework.kafka:spring-kafka'
-		//스프링 프로브
-		api 'org.springframework.boot:spring-boot-starter-actuator'
-		//프로메테우스 메트릭 노출
-		api 'io.micrometer:micrometer-registry-prometheus'
-		//마이바티스
-	    api 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 
-		api 'org.springframework.boot:spring-boot-starter-web'
-		api 'org.springframework.boot:spring-boot-starter-security'
-		api 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
-		api 'org.springframework.boot:spring-boot-starter-mail'
-		api 'org.springframework.boot:spring-boot-starter-aop'
-
-		api 'org.springframework.boot:spring-boot-starter-validation'
-
-		api 'org.springframework.boot:spring-boot-starter-data-redis'  // Lettuce 포함, 버전 관리됨
-
-		api 'io.jsonwebtoken:jjwt-api:0.12.3'
-		api 'io.jsonwebtoken:jjwt-impl:0.12.3'
-		api 'io.jsonwebtoken:jjwt-jackson:0.12.3'
-
-		api 'org.projectlombok:lombok'
+// 서브프로젝트 공통 설정
+subprojects {
+	dependencies {
+		// lombok 공통 설정
+		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 
-		api 'org.locationtech.jts:jts-core:1.19.0'
-		api 'org.locationtech.jts.io:jts-io-common:1.19.0'
-
-		api 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-
-		api'org.reflections:reflections:0.10.2'
-
-
-		api 'org.springframework.boot:spring-boot-starter-jdbc'
-		api 'com.mysql:mysql-connector-j'
-		api 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
-
+		// 테스트 의존성 공통 설정
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		testImplementation 'org.springframework.security:spring-security-test'
 		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	}
 
-
-
-
+	publishing {
+		publications {
+			maven(MavenPublication) {
+				from components.java
+				artifactId = project.name
+			}
+		}
+	}
 }
 
+// 조건부 배포를 위한 태스크 정의
+task publishCore {
+	dependsOn ':kyj-lib-core:publish'
+	description = '코어 모듈만 배포'
+}
+
+task publishWithKafka {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-kafka:publish'
+	description = '코어 + 카프카 모듈 배포'
+}
+
+task publishWithRedis {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-redis:publish'
+	description = '코어 + 레디스 모듈 배포'
+}
+
+task publishWithFile {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-file:publish'
+	description = '코어 + 파일 모듈 배포'
+}
+
+task publishWithJpa {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-jpa:publish'
+	description = '코어 + JPA 모듈 배포'
+}
+
+task publishAll {
+	dependsOn subprojects.collect { ":${it.name}:publish" }
+	description = '모든 모듈 배포'
+}
