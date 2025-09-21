@@ -28,11 +28,7 @@ kyj-fk-be-core/
 # 코어 + 레디스 모듈 배포
 ./gradlew publishWithRedis
 
-# 코어 + 파일 모듈 배포
-./gradlew publishWithFile
 
-# 코어 + JPA 모듈 배포
-./gradlew publishWithJpa
 
 # 모든 모듈 배포
 ./gradlew publishAll
@@ -42,10 +38,7 @@ kyj-fk-be-core/
 
 특정 모듈들만 선택해서 배포:
 
-```bash
-# 특정 모듈 배포
-./gradlew :kyj-lib-core:publish
-./gradlew :kyj-lib-core-kafka:publish :kyj-lib-core-redis:publish
+
 
 # 여러 모듈 동시 배포
 ./gradlew :kyj-lib-core:publish :kyj-lib-core-kafka:publish :kyj-lib-core-redis:publish
@@ -117,9 +110,6 @@ dependencies {
 - AWS S3 파일 업로드/다운로드
 - 파일 관리 기능
 
-### kyj-lib-core-jpa
-- JPA 설정 및 QueryDSL 지원
-- 데이터베이스 관련 유틸리티
 
 ## 주의사항
 
