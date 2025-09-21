@@ -5,7 +5,7 @@ import com.kyj.core.security.auth.dto.AuthMemberDTO;
 import com.kyj.core.security.auth.dto.CustomOAuth2User;
 import com.kyj.core.security.auth.jwt.AuthJWTUtil;
 import com.kyj.core.security.auth.service.AuthTokenService;
-import com.kyj.core.util.CookieUtil;
+import com.kyj.core.security.auth.util.ResponseCookieHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -64,9 +64,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             authTokenService.addRefreshToken(String.valueOf(memberDTO.getUserId()), refreshToken);
 
             // 쿠키에 토큰 설정
-            CookieUtil.addCookie(response, "Authorization", accessToken,
+            ResponseCookieHelper.addCookie(response, "Authorization", accessToken,
                 (int) (authSecurityProperties.getToken().getAccessTokenExpiry() / 1000));
-            CookieUtil.addCookie(response, "refresh", refreshToken,
+            ResponseCookieHelper.addCookie(response, "refresh", refreshToken,
                 (int) (authSecurityProperties.getToken().getRefreshTokenExpiry() / 1000));
 
             log.info("JWT 토큰 발급 완료: 사용자 = {}", memberDTO.getUsername());
