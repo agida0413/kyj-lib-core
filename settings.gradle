@@ -6,5 +6,7 @@ include 'kyj-lib-core-kafka'     // 카프카 모듈
 include 'kyj-lib-core-redis'     // 레디스 모듈
 include 'kyj-lib-core-file'      // 파일 모듈
 include 'kyj-lib-core-jpa'       // JPA 모듈
-include 'kyj-lib-core-rdb'
+include 'kyj-lib-core-rdb'       // RDB 모듈
+include 'kyj-lib-core-security-client'  // 시큐리티 클라이언트 모듈
+include 'kyj-lib-core-security-auth'    // 시큐리티 인증서버 모듈
 

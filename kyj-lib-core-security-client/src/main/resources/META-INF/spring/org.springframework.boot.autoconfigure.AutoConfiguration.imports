@@ -1,0 +1,2 @@
+com.kyj.core.security.client.config.SecurityClientAutoConfiguration
+com.kyj.core.security.client.config.SecurityClientWebConfig
