@@ -1,9 +1,10 @@
-package com.kyj.core.tx.advisor;
+package com.kyj.core.rdb.tx.advisor;
 
 //import com.kyj.fmk.core.tx.dataSource.DataSourceContextHolder;
-import com.kyj.core.exception.custom.KyjSysException;
+
 import com.kyj.core.api.CmErrCode;
-import com.kyj.core.tx.lock.DtbLock;
+import com.kyj.core.exception.custom.KyjSysException;
+import com.kyj.core.rdb.tx.lock.DtbLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -31,7 +32,7 @@ public class TxAdvisor {
 
         private  final DtbLock dtbLock;
 
-        @Around("@annotation(com.kyj.fmk.core.tx.annotation.DtbLock)")
+        @Around("@annotation(com.kyj.core.rdb.tx.annotation.DtbLock)")
         public Object manageDtbLock(ProceedingJoinPoint joinPoint) throws Throwable {
 
             Object result;

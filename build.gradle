@@ -102,6 +102,11 @@ task publishWithJpa {
 	description = '코어 + JPA 모듈 배포'
 }
 
+task publishWithRdb {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-rdb:publish'
+	description = '코어 + RDB 모듈 배포'
+}
+
 task publishAll {
 	dependsOn subprojects.collect { ":${it.name}:publish" }
 	description = '모든 모듈 배포'

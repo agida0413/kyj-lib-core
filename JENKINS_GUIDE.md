@@ -12,6 +12,7 @@
 - **WITH_REDIS**: 코어 + 레디스 모듈 배포
 - **WITH_FILE**: 코어 + 파일(S3) 모듈 배포
 - **WITH_JPA**: 코어 + JPA 모듈 배포
+- **WITH_RDB**: 코어 + RDB 모듈 배포
 - **ALL_MODULES**: 모든 모듈 배포
 
 ### 2. 브랜치 선택
@@ -70,6 +71,7 @@ gradlew 파일에 실행 권한을 부여합니다.
 ./gradlew publishWithRedis     # 코어 + 레디스
 ./gradlew publishWithFile      # 코어 + 파일
 ./gradlew publishWithJpa       # 코어 + JPA
+./gradlew publishWithRdb       # 코어 + RDB
 ./gradlew publishAll           # 모든 모듈
 ```
 
@@ -104,7 +106,15 @@ RUN_TESTS: true
 CLEAN_BUILD: true
 ```
 
-### 시나리오 3: 빠른 배포 (테스트 제외)
+### 시나리오 3: 데이터베이스 관련 모듈 배포
+```
+DEPLOY_TYPE: WITH_RDB
+BRANCH: main
+RUN_TESTS: true
+CLEAN_BUILD: true
+```
+
+### 시나리오 4: 빠른 배포 (테스트 제외)
 ```
 DEPLOY_TYPE: ALL_MODULES
 BRANCH: feature/refactoring-2025/09
