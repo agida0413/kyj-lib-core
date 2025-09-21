@@ -49,6 +49,8 @@ public class AuthTokenServiceImpl implements AuthTokenService {
         } catch (Exception e) {
             log.error("리프레시 토큰 삭제 실패: userId={}, error={}", userId, e.getMessage());
             throw new SecurityException(SecurityErrorCode.SEC032, "토큰 삭제에 실패했습니다.");
+//            SecurityResponseUtil.writeErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,SecurityErrorCode.SEC032);
+
         }
     }
 
@@ -73,6 +75,8 @@ public class AuthTokenServiceImpl implements AuthTokenService {
         } catch (Exception e) {
             log.error("토큰 블랙리스트 등록 실패: error={}", e.getMessage());
             throw new SecurityException(SecurityErrorCode.SEC031, "토큰 저장에 실패했습니다.");
+//            SecurityResponseUtil.writeErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,SecurityErrorCode.SEC031);
+
         }
     }
 

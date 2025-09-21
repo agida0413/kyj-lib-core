@@ -26,10 +26,6 @@ public class AuthSecurityProperties {
      */
     private OAuth2 oauth2 = new OAuth2();
 
-    /**
-     * 쿠키 관련 설정
-     */
-    private Cookie cookie = new Cookie();
 
     @Getter
     @Setter
@@ -71,35 +67,8 @@ public class AuthSecurityProperties {
         /**
          * 지원되는 OAuth2 제공자들
          */
-        private String[] supportedProviders = {"google", "naver", "kakao"};
+//        private String[] supportedProviders = {"google", "naver", "kakao"};
     }
 
-    @Getter
-    @Setter
-    public static class Cookie {
-        /**
-         * 쿠키 도메인
-         */
-        private String domain;
 
-        /**
-         * 쿠키 경로
-         */
-        private String path = "/";
-
-        /**
-         * HTTPS 전용 쿠키 여부
-         */
-        private boolean secure = false;
-
-        /**
-         * HttpOnly 쿠키 여부
-         */
-        private boolean httpOnly = true;
-
-        /**
-         * SameSite 설정
-         */
-        private String sameSite = "Lax";
-    }
 }

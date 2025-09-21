@@ -147,8 +147,6 @@ s3:
 
 
 
-
-
   # 시큐리티 모듈 설정
   security:
     # 인증 서버 설정 (kyj-lib-core-security-auth 사용시)
@@ -161,16 +159,7 @@ s3:
         success-redirect-url: ${FRONTEND_URL:http://localhost:3000}/auth/success
         failure-redirect-url: ${FRONTEND_URL:http://localhost:3000}/auth/failure
         logout-redirect-url: ${FRONTEND_URL:http://localhost:3000}
-        supported-providers:
-          - google
-          - naver
-          - kakao
-      cookie:
-        domain: ${COOKIE_DOMAIN:}
-        path: /
-        secure: ${COOKIE_SECURE:false}
-        http-only: true
-        same-site: Lax
+
 
     # 클라이언트 설정 (kyj-lib-core-security-client 사용시)
     client:

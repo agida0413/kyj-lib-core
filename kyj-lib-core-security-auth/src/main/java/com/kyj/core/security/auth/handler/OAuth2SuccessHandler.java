@@ -3,14 +3,17 @@ package com.kyj.core.security.auth.handler;
 import com.kyj.core.security.auth.config.AuthSecurityProperties;
 import com.kyj.core.security.auth.dto.AuthMemberDTO;
 import com.kyj.core.security.auth.dto.CustomOAuth2User;
+import com.kyj.core.security.auth.exception.SecurityErrorCode;
 import com.kyj.core.security.auth.jwt.AuthJWTUtil;
 import com.kyj.core.security.auth.service.AuthTokenService;
 import com.kyj.core.security.auth.util.ResponseCookieHelper;
+import com.kyj.core.security.auth.util.SecurityResponseUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -77,7 +80,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         } catch (Exception e) {
             log.error("OAuth2 로그인 성공 처리 중 오류 발생: {}", e.getMessage(), e);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "토큰 발급 중 오류가 발생했습니다.");
+//            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "토큰 발급 중 오류가 발생했습니다.");
+            SecurityResponseUtil.writeErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, SecurityErrorCode.SEC033);
         }
     }
 }

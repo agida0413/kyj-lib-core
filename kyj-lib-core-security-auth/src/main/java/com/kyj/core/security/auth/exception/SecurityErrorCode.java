@@ -37,7 +37,9 @@ public enum SecurityErrorCode {
     // Redis 관련 에러 (SEC300 ~ SEC399)
     SEC030("SEC030", "Redis 연결에 실패했습니다."),
     SEC031("SEC031", "토큰 저장에 실패했습니다."),
-    SEC032("SEC032", "토큰 삭제에 실패했습니다.");
+    SEC032("SEC032", "토큰 삭제에 실패했습니다."),
+
+    SEC033("SEC033", "서버 내부 오류입니다.");
 
     private final String code;
     private final String message;
