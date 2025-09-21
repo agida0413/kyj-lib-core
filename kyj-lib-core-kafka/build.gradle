@@ -1,6 +1,6 @@
 dependencies {
-	// 카프카 의존성
-	api 'org.springframework.kafka:spring-kafka'
+	// 카프카 의존성 (버전 명시)
+	api 'org.springframework.kafka:spring-kafka:3.5.3'
 
 	// 코어 모듈 참조 (컴파일 시에만 사용, 런타임 의존성 없음)
 	compileOnly project(':kyj-lib-core')
