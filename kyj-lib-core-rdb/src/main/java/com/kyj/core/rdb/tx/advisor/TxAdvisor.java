@@ -4,7 +4,6 @@ package com.kyj.core.rdb.tx.advisor;
 
 import com.kyj.core.api.CmErrCode;
 import com.kyj.core.exception.custom.KyjSysException;
-import com.kyj.core.rdb.tx.lock.DtbLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,51 +19,6 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 public class TxAdvisor {
-
-    /**
-     * 분산락을 제어하기위한 aop
-     */
-    @Order(1)
-    @Component
-    @Aspect
-    @RequiredArgsConstructor
-    public static class DtbLockAspect{
-
-        private  final DtbLock dtbLock;
-
-        @Around("@annotation(com.kyj.core.rdb.tx.annotation.DtbLock)")
-        public Object manageDtbLock(ProceedingJoinPoint joinPoint) throws Throwable {
-
-            Object result;
-
-            boolean acquired= dtbLock.acquired(joinPoint.getSignature().getName());
-            boolean isNotTimeOut = true;
-            if(acquired){
-                try {
-                    result = joinPoint.proceed();
-                    isNotTimeOut = dtbLock.isNotTimeOut(joinPoint.getSignature().getName());
-                } catch (Exception e) {
-                    log.error("분산락 획득에 실패하였습니다.");
-                    throw new KyjSysException(CmErrCode.CM002);
-                }
-                finally {
-                    if(isNotTimeOut){
-                        dtbLock.deleteLock(joinPoint.getSignature().getName());
-                    }else{
-                        throw new KyjSysException(CmErrCode.CM002);
-                    }
-                }
-            }else{
-                log.error("분산락 획득에 실패하였습니다.");
-                throw new KyjSysException(CmErrCode.CM002);
-            }
-
-
-
-            return result;
-
-        }
-    }
 
         /**
          * 동적 데이터소스에 대한 어드바이저 static 클래스

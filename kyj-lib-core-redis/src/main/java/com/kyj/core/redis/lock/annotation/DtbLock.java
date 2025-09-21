@@ -1,4 +1,4 @@
-package com.kyj.core.rdb.tx.annotation;
+package com.kyj.core.redis.lock.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
