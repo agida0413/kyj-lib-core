@@ -1,0 +1,10 @@
+rootProject.name = "kyj-lib-core"
+
+// 모든 서브 모듈 정의
+include 'kyj-lib-core'           // 필수 코어 모듈
+include 'kyj-lib-core-kafka'     // 카프카 모듈
+include 'kyj-lib-core-redis'     // 레디스 모듈
+include 'kyj-lib-core-file'      // 파일 모듈
+include 'kyj-lib-core-jpa'       // JPA 모듈
+
+

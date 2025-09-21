@@ -1,130 +1,121 @@
-# KYJ Core
+# KYJ 코어 라이브러리 배포 가이드
 
-> 사이드 프로젝트 개발 속도 향상을 위한 Spring Boot 기반 공통 모듈 라이브러리
+## 프로젝트 구조
 
-## 📖 개요
+```
+kyj-fk-be-core/
+├── kyj-lib-core/           # 필수 코어 모듈 (항상 포함)
+├── kyj-lib-core-kafka/     # 카프카 모듈 (선택적)
+├── kyj-lib-core-redis/     # 레디스 모듈 (선택적)
+├── kyj-lib-core-file/      # 파일(S3) 모듈 (선택적)
+├── kyj-lib-core-jpa/       # JPA 모듈 (선택적)
+└── kyj-lib-redis/          # 레거시 모듈 (정리 예정)
+```
 
-KYJ Core는 Spring Boot 기반의 웹 애플리케이션 개발 시 반복적으로 사용되는 기능들을 모듈화하여, 사이드 프로젝트의 개발 속도를 대폭 향상시키기 위해 만들어진 공통 라이브러리입니다.
+## 배포 방법
 
-## 🚀 주요 기능
+### 1. 개별 모듈 배포
 
-### 🔧 유틸리티 모듈
-- **RandomGenerator**: 보안 강화된 랜덤 문자열/숫자 생성기
-- **CookieUtil**: 쿠키 관리 유틸리티
-- **GeoUtil**: 지리정보 처리 유틸리티
-- **MailUtil**: 이메일 전송 유틸리티
+각 모듈을 개별적으로 넥서스에 배포할 수 있습니다.
 
-### 🗄️ 데이터 저장 및 캐싱
-- **Redis 설정**: 단일/클러스터 Redis 연동 및 캐시 관리
-- **MyBatis 연동**: 데이터베이스 ORM 설정
-- **MySQL 연결**: 데이터베이스 연결 및 로깅
+```bash
+# 코어 모듈만 배포
+./gradlew publishCore
 
-### 📧 메일 서비스
-- **JavaMailSender**: 이메일 전송 기능
-- **템플릿 기반 메일**: HTML 템플릿을 활용한 메일 발송
+# 코어 + 카프카 모듈 배포
+./gradlew publishWithKafka
 
-### 📁 파일 관리
-- **FileService**: 파일 업로드/다운로드 처리
-- **S3 연동**: AWS S3 객체 스토리지 연동
-- **파일 검증**: 업로드 파일 유효성 검사
+# 코어 + 레디스 모듈 배포
+./gradlew publishWithRedis
 
 
 
-### 🔄 비동기 처리
-- **Kafka**: 메시지 큐 연동
-- **비동기 서비스**: 백그라운드 작업 처리
+# 모든 모듈 배포
+./gradlew publishAll
+```
 
-### 🎯 기타 기능
-- **AOP**: 횡단 관심사 처리
-- **예외 처리**: 커스텀 예외 및 글로벌 예외 핸들러
-- **트랜잭션**: 데이터베이스 트랜잭션 관리
-- **로깅**: 구조화된 로깅 시스템
+### 2. 직접 모듈 지정 배포
 
-## 🛠 기술 스택
+특정 모듈들만 선택해서 배포:
 
-- **Java 17**
-- **Spring Boot 3.5.3**
-- **Redis (Lettuce)**
-- **AWS S3 SDK**
-- **Kafka**
-- **JWT (jjwt)**
-- **Lombok**
-- **JTS (지리정보)**
 
-## 📦 설치 및 사용
 
-### Gradle 의존성 추가
+# 여러 모듈 동시 배포
+./gradlew :kyj-lib-core:publish :kyj-lib-core-kafka:publish :kyj-lib-core-redis:publish
+```
+
+## 로컬 개발 환경 설정
+
+각 서브 모듈(kafka, redis, file, jpa)에서 코어 모듈을 참조해야 할 때는 `localDev` 플래그를 사용합니다.
+
+```bash
+# 로컬 개발용 빌드 (코어 모듈 참조 포함)
+./gradlew build -PlocalDev=true
+
+# 로컬 개발용 테스트
+./gradlew test -PlocalDev=true
+
+# 로컬 개발용 IDE 설정 생성
+./gradlew idea -PlocalDev=true
+./gradlew eclipse -PlocalDev=true
+```
+
+## 실제 프로젝트에서의 사용
+
+### 1. 기본 사용 (코어만)
 
 ```gradle
 dependencies {
-    implementation 'com.kyj.fmk:kyj-fk-be-core:0.0.1-SNAPSHOT'
+    implementation 'com.kyj:kyj-lib-core:0.0.1-SNAPSHOT'
 }
 ```
 
-### Maven Repository 설정
-
-프로젝트의 `build.gradle`에 다음 저장소를 추가
+### 2. 카프카와 함께 사용
 
 ```gradle
-repositories {
-    maven {
-        url = uri("http://192.168.56.1:9090/repository/bottle-story/")
-    }
+dependencies {
+    implementation 'com.kyj:kyj-lib-core:0.0.1-SNAPSHOT'
+    implementation 'com.kyj:kyj-lib-core-kafka:0.0.1-SNAPSHOT'
 }
 ```
 
-## 🏗 프로젝트 구조
+### 3. 여러 모듈과 함께 사용
 
-```
-src/main/java/com/kyj/fmk/core/
-├── async/          # 비동기 처리
-├── exception/      # 예외 처리
-├── file/          # 파일 관리
-├── logging/       # 로깅
-├── mail/          # 메일 서비스
-├── model/         # 데이터 모델
-├── redis/         # Redis 설정
-├── service/       # 공통 서비스
-├── tx/           # 트랜잭션 처리
-└── util/         # 유틸리티 클래스
+```gradle
+dependencies {
+    implementation 'com.kyj:kyj-lib-core:0.0.1-SNAPSHOT'
+    implementation 'com.kyj:kyj-lib-core-kafka:0.0.1-SNAPSHOT'
+    implementation 'com.kyj:kyj-lib-core-redis:0.0.1-SNAPSHOT'
+    implementation 'com.kyj:kyj-lib-core-jpa:0.0.1-SNAPSHOT'
+}
 ```
 
-## 🎯 사용 예시
+## 모듈별 기능
 
-### 랜덤 문자열 생성
-```java
-// 16자리 보안 강화 랜덤 문자열 생성
-String randomPassword = RandomGenerator.generateRandom(16);
+### kyj-lib-core (필수)
+- 스프링 부트 기본 설정 (Web, AOP, Validation, Mail 등)
+- 예외 처리 및 로깅
+- 유틸리티 클래스들
+- 모니터링 (Actuator, Prometheus)
 
-// 6자리 랜덤 숫자 생성
-String randomCode = RandomGenerator.generateRandomNumber(6);
-```
+### kyj-lib-core-kafka
+- 카프카 관련 설정 및 유틸리티
+- 메시지 생산/소비 기능
 
-### Redis 사용
-```java
-@Autowired
-private RedisTemplate<String, Object> redisTemplate;
+### kyj-lib-core-redis
+- 레디스 연결 및 설정
+- 캐싱 관련 기능
 
-// 데이터 저장
-redisTemplate.opsForValue().set("key", "value");
-
-// 데이터 조회
-String value = redisTemplate.opsForValue().get("key");
-```
-
-### 메일 전송
-```java
-@Autowired
-private MailSender mailSender;
-
-// 템플릿 메일 전송
-mailSender.send("welcome-template", "환영합니다!", "user@example.com");
-```
+### kyj-lib-core-file
+- AWS S3 파일 업로드/다운로드
+- 파일 관리 기능
 
 
+## 주의사항
 
+1. **코어 모듈은 필수**: 다른 모듈들을 사용할 때는 항상 `kyj-lib-core`도 함께 포함해야 합니다.
 
-이 프로젝트는 개인 사이드 프로젝트용으로 개발되었습니다.
+2. **로컬 개발시**: 서브 모듈에서 코어 기능을 참조해야 할 때는 `-PlocalDev=true` 플래그를 사용합니다.
 
----
+3. **배포시**: 서브 모듈들은 독립적으로 배포되며, 실제 사용할 때는 필요한 모듈들을 조합하여 사용합니다.
 

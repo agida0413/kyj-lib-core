@@ -1,0 +1,14 @@
+dependencies {
+	// AWS S3 의존성
+	api 'software.amazon.awssdk:s3:2.27.2'
+	api 'software.amazon.awssdk:url-connection-client:2.27.2'
+
+	// 코어 모듈 참조 (컴파일 시에만 사용, 런타임 의존성 없음)
+	// 코어에 이미 spring-boot-starter-web이 포함되어 있어 Spring 의존성 사용 가능
+	compileOnly project(':kyj-lib-core')
+
+	// 로컬 개발용 테스트 의존성
+	if (project.hasProperty('localDev') && project.property('localDev') == 'true') {
+		testImplementation project(':kyj-lib-core')
+	}
+}

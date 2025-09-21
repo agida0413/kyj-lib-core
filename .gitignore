@@ -1,7 +1,7 @@
 HELP.md
 .gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
+!kyj-lib-core/gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+kyj-lib-core/.idea
 *.iws
 *.iml
 *.ipr
@@ -36,6 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 .DS_Store
-.idea
+kyj-lib-core/.idea
 .out
 .build

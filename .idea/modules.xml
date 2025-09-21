@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kyj-lib-core-file/kyj-lib-core.kyj-lib-core-file.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kyj-lib-core-file/kyj-lib-core.kyj-lib-core-file.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kyj-lib-core-kafka/kyj-lib-core.kyj-lib-core-kafka.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kyj-lib-core-kafka/kyj-lib-core.kyj-lib-core-kafka.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kyj-lib-core-redis/kyj-lib-core.kyj-lib-core-redis.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kyj-lib-core-redis/kyj-lib-core.kyj-lib-core-redis.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kyj-lib-core/kyj-lib-core.kyj-lib-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kyj-lib-core/kyj-lib-core.kyj-lib-core.main.iml" />
+    </modules>
+  </component>
+</project>

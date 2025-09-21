@@ -1,0 +1,12 @@
+dependencies {
+	// 레디스 의존성
+	api 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// 코어 모듈 참조 (컴파일 시에만 사용, 런타임 의존성 없음)
+	compileOnly project(':kyj-lib-core')
+
+	// 로컬 개발용 테스트 의존성
+	if (project.hasProperty('localDev') && project.property('localDev') == 'true') {
+		testImplementation project(':kyj-lib-core')
+	}
+}
