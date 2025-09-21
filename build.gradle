@@ -31,15 +31,9 @@ allprojects {
 
 	// 공통 publishing 설정
 	publishing {
-
-		publications {
-			mavenJava(MavenPublication) {
-				from components.java
-			}
-		}
 		repositories {
 			maven {
-				url = uri("http://100.114.34.71:9090/repository/kyj-lib-core/")
+				url = uri("http://http://192.168.56.1:9090/repository/kyj-lib-core/")
 				credentials {
 					username = "admin"
 					password = "1234"
@@ -48,9 +42,15 @@ allprojects {
 			}
 		}
 	}
-
 }
-
+publishing {
+	publications {
+		maven(MavenPublication) {
+			from components.java
+			artifactId = project.name
+		}
+	}
+}
 // 서브프로젝트 공통 설정
 subprojects {
 	dependencies {
