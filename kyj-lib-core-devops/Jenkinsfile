@@ -149,7 +149,7 @@ pipeline {
             archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true, allowEmptyArchive: true
 
             // 테스트 결과 퍼블리시 (테스트 실행한 경우)
-            publishTestResults testResultsPattern: '**/build/test-results/test/*.xml', allowEmptyResults: true
+            junit testResults: '**/build/test-results/test/*.xml', allowEmptyResults: true
         }
 
         success {
