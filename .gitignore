@@ -56,10 +56,10 @@ Thumbs.db
 .gradle/
 **/gradle/.idea/
 gradle-app.setting
-!gradle-wrapper.jar
-!gradle-wrapper.properties
-**/gradle/wrapper/gradle-wrapper.jar
-**/gradle/wrapper/gradle-wrapper.properties
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!**/gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.properties
 
 ### Build Output ###
 build/
