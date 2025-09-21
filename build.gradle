@@ -31,6 +31,12 @@ allprojects {
 
 	// 공통 publishing 설정
 	publishing {
+
+		publications {
+			mavenJava(MavenPublication) {
+				from components.java
+			}
+		}
 		repositories {
 			maven {
 				url = uri("http://100.114.34.71:9090/repository/kyj-lib-core/")
@@ -42,6 +48,7 @@ allprojects {
 			}
 		}
 	}
+
 }
 
 // 서브프로젝트 공통 설정
@@ -56,14 +63,7 @@ subprojects {
 		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	}
 
-	publishing {
-		publications {
-			maven(MavenPublication) {
-				from components.java
-				artifactId = project.name
-			}
-		}
-	}
+
 }
 
 // 조건부 배포를 위한 태스크 정의
