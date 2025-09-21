@@ -31,6 +31,12 @@ allprojects {
 
 	// 공통 publishing 설정
 	publishing {
+		publications {
+			maven(MavenPublication) {
+				from components.java
+				artifactId = project.name
+			}
+		}
 		repositories {
 			maven {
 				url = uri("http://192.168.56.1:9090/repository/kyj-lib-core/")
@@ -40,14 +46,6 @@ allprojects {
 				}
 				allowInsecureProtocol = true
 			}
-		}
-	}
-}
-publishing {
-	publications {
-		maven(MavenPublication) {
-			from components.java
-			artifactId = project.name
 		}
 	}
 }
