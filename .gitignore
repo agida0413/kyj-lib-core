@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-kyj-lib-core/.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -35,7 +35,34 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### macOS ###
 .DS_Store
-kyj-lib-core/.idea
-.out
-.build
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+### Windows ###
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+
+### Gradle ###
+.gradle/
+**/gradle/.idea/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+**/gradle/wrapper/gradle-wrapper.jar
+**/gradle/wrapper/gradle-wrapper.properties
+
+### Build Output ###
+build/
+target/
+bin/
+out/
