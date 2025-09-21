@@ -107,6 +107,21 @@ task publishWithRdb {
 	description = '코어 + RDB 모듈 배포'
 }
 
+task publishWithSecurityClient {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-redis:publish', ':kyj-lib-core-security-client:publish'
+	description = '코어 + 레디스 + 시큐리티 클라이언트 모듈 배포'
+}
+
+task publishWithSecurityAuth {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-redis:publish', ':kyj-lib-core-kafka:publish', ':kyj-lib-core-security-auth:publish'
+	description = '코어 + 레디스 + 카프카 + 시큐리티 인증서버 모듈 배포'
+}
+
+task publishWithSecurity {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-redis:publish', ':kyj-lib-core-kafka:publish', ':kyj-lib-core-security-client:publish', ':kyj-lib-core-security-auth:publish'
+	description = '코어 + 레디스 + 카프카 + 모든 시큐리티 모듈 배포'
+}
+
 task publishAll {
 	dependsOn subprojects.collect { ":${it.name}:publish" }
 	description = '모든 모듈 배포'
