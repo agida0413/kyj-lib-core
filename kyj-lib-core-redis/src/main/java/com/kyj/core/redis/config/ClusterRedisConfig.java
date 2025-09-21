@@ -1,4 +1,4 @@
-package com.kyj.core.redis;
+package com.kyj.core.redis.config;
 
 import io.lettuce.core.ReadFrom;
 import org.springframework.beans.factory.annotation.Value;

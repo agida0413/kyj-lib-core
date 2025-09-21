@@ -1,4 +1,4 @@
-package com.kyj.core.redis;
+package com.kyj.core.redis.key;
 
 /**
  * 2025-05-29

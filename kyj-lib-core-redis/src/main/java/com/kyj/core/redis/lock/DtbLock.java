@@ -1,4 +1,4 @@
-package com.kyj.core.rdb.tx.lock;
+package com.kyj.core.redis.lock;
 /**
  * 2025-06-18
  * @author 김용준
