@@ -1,19 +1,13 @@
 dependencies {
-	// JWT 관련 의존성
-	api 'io.jsonwebtoken:jjwt-api:0.12.3'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
-
-	// Spring Boot Web (HTTP 요청/응답 처리용)
-
-	// 코어 및 레디스 모듈 참조 (컴파일 시에만 사용, 런타임 의존성 없음)
-	// 실제 배포시에는 kyj-lib-core와 kyj-lib-core-redis가 함께 배포된다고 가정
+	// 기존 모듈들 참조 (개발시 사용, 빌드시 제외)
 	compileOnly project(':kyj-lib-core')
+	compileOnly project(':kyj-lib-core-security-auth')
 	compileOnly project(':kyj-lib-core-redis')
 
-	// 로컬 개발용 의존성 (개발 및 테스트시에만 사용)
+	// 로컬 개발용 의존성
 	if (project.hasProperty('localDev') && project.property('localDev') == 'true') {
-		testImplementation project(':kyj-lib-core')
-		testImplementation project(':kyj-lib-core-redis')
+		implementation project(':kyj-lib-core')
+		implementation project(':kyj-lib-core-security-auth')
+		implementation project(':kyj-lib-core-redis')
 	}
 }

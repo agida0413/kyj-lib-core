@@ -11,10 +11,10 @@ spring:
 
   # ===== 이메일 설정 (kyj-lib-core) =====
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: 'gimyongjun414@gmail.com'
-    password: 'uaae kceo ihwr croz'
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -113,9 +113,6 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
-  # ===== JWT 클라이언트 설정 (kyj-lib-core-security-client) =====
-  jwt:
-    secret: ${JWT_SECRET:your-super-secret-jwt-key-at-least-32-characters-long}
 
 # ===== 모니터링 설정 (kyj-lib-core 포함) =====
 management:
@@ -144,10 +141,8 @@ s3:
     region: ap-northeast-2
     bucket: ${S3_BUCKET}
 
-
-
-
-  # 시큐리티 모듈 설정
+# ===== KYJ 모듈 설정 =====
+kyj:
   security:
     # 인증 서버 설정 (kyj-lib-core-security-auth 사용시)
     auth:
@@ -159,23 +154,16 @@ s3:
         success-redirect-url: ${FRONTEND_URL:http://localhost:3000}/auth/success
         failure-redirect-url: ${FRONTEND_URL:http://localhost:3000}/auth/failure
         logout-redirect-url: ${FRONTEND_URL:http://localhost:3000}
-
-
-    # 클라이언트 설정 (kyj-lib-core-security-client 사용시)
     client:
-      jwt:
-        secret: ${JWT_SECRET:your-super-secret-jwt-key-at-least-32-characters-long}
-      auth:
-        require-auth-by-default: true
-        enable-blacklist-check: true
+      enabled: true
+      use-api-gateway: false  # true: API Gateway, false: JWT
+      enable-blacklist: true
       api-gateway:
-        enabled: ${API_GATEWAY_ENABLED:false}
-        user-info-header: x-api-gateway-user-info
-        verify-gateway-trust: true
-        trusted-sources:
-          - x-forwarded-for
-          - x-real-ip
-      enabled: false # 기본 시큐리티 필터
+        user-id-header: "X-User-Id"
+        username-header: "X-Username"
+        email-header: "X-Email"
+        roles-header: "X-Roles"
+        token-header: "X-Token"
 
 # ===== 로깅 설정 =====
 logging:
@@ -190,66 +178,4 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
----
-# ===== 로컬 개발 환경 =====
-spring:
-  config:
-    activate:
-      on-profile: local
 
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-
-  data:
-    redis:
-      password:  # 로컬에서는 패스워드 없음
-
-logging:
-  level:
-    com.kyj.core: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-
----
-# ===== 개발 환경 =====
-spring:
-  config:
-    activate:
-      on-profile: dev
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
-
-kyj:
-  security:
-    auth:
-      cookie:
-        secure: false
-
----
-# ===== 프로덕션 환경 =====
-spring:
-  config:
-    activate:
-      on-profile: prod
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: false
-
-kyj:
-  security:
-    auth:
-      cookie:
-        secure: true
-        same-site: Strict
-
-logging:
-  level:
-    com.kyj.core: INFO
-    org.springframework.web: WARN
-    org.springframework.security: WARN

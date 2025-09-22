@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.kyj.core.security.client.config.SecurityClientAutoConfiguration
