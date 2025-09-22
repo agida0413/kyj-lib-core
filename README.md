@@ -1,4 +1,4 @@
-# KYJ Enterprise Core Library
+# KYJ Core Library
 
 Spring Boot 기반  멀티모듈 라이브러리
 
