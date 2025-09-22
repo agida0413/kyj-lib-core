@@ -6,18 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 2025-09-21
- * @author 김용준
- * 인증이 필요 없는 퍼블릭 엔드포인트임을 명시하는 어노테이션
- * 기본 정책은 인증 필요이며, 이 어노테이션을 붙인 경우에만 인증 없이 접근 가능
+ * 인증이 필요없는 퍼블릭 엔드포인트 표시
+ *
+ * 사용법:
+ * @PublicEndpoint
+ * @GetMapping("/public/info")
+ * public String getPublicInfo() { ... }
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PublicEndpoint {
-
-    /**
-     * 퍼블릭 엔드포인트에 대한 설명
-     * @return 설명
-     */
-    String value() default "";
 }

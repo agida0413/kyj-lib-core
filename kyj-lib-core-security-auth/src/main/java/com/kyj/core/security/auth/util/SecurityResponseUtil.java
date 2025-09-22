@@ -67,6 +67,7 @@ public final class SecurityResponseUtil {
         }
     }
 
+
     /**
      * 에러 응답 작성 (커스텀 메시지)
      */
@@ -87,4 +88,5 @@ public final class SecurityResponseUtil {
             log.error("에러 응답 작성 실패: {}", e.getMessage());
         }
     }
+
 }
