@@ -19,5 +19,5 @@ public @interface RequireRole {
     /**
      * 필요한 권한
      */
-    String value();
+    String[] value();
 }

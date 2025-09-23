@@ -37,8 +37,8 @@ public class ApiGatewaySecurityFilter extends OncePerRequestFilter {
         try {
             SecurityUser user = extractUserFromHeaders(request);
 
-            // 인증 실패시 공통 응답으로 처리
-            if (!user.isAuthenticated() && !EndpointMatcher.isPublicEndpoint(request)) {
+            // 인증 실패시 공통 응답으로 처리 (퍼블릭 엔드포인트는 shouldNotFilter에서 처리)
+            if (!user.isAuthenticated()) {
                 SecurityResponseUtil.writeErrorResponse(response, HttpStatus.UNAUTHORIZED, SecurityErrorCode.SEC010);
                 return;
             }
@@ -52,10 +52,8 @@ public class ApiGatewaySecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        return path.startsWith("/actuator") ||
-               path.startsWith("/health") ||
-               path.startsWith("/favicon.ico");
+        // 설정된 정적 퍼블릭 엔드포인트만 필터에서 제외 (애노테이션 기반은 인터셉터에서 처리)
+        return EndpointMatcher.isStaticPublicEndpoint(request, properties.getStaticPublicEndpoints());
     }
 
     /**
@@ -71,26 +69,27 @@ public class ApiGatewaySecurityFilter extends OncePerRequestFilter {
 
         // 필수 정보가 없으면 익명 사용자
         if (!StringUtils.hasText(userId) || !StringUtils.hasText(username)) {
-            log.debug("API Gateway 헤더에 필수 정보 없음: userId={}, username={}", userId, username);
+            log.debug("API Gateway 헤더에 필수 정보 없음: userId={}, username={}",
+                     userId != null ? "***" : null, username != null ? "***" : null);
             return SecurityUser.anonymous();
         }
 
-        // 블랙리스트 체크 (활성화된 경우)
+        // 사용자 블랙리스트 체크 (활성화된 경우)
         if (properties.isEnableBlacklist() && blacklistService != null) {
             if (blacklistService.isUserBlacklisted(userId)) {
-                log.warn("블랙리스트 사용자 접근 차단: {}", userId);
+                log.warn("블랙리스트 사용자 접근 차단: {}", userId != null ? "***" : null);
                 return SecurityUser.anonymous();
             }
 
             // 토큰 블랙리스트 체크 (토큰 헤더가 있는 경우)
             String token = request.getHeader(config.getTokenHeader());
             if (StringUtils.hasText(token) && blacklistService.isTokenBlacklisted(token)) {
-                log.warn("블랙리스트 토큰 접근 차단: {}", userId);
+                log.warn("블랙리스트 토큰 접근 차단: {}", userId != null ? "***" : null);
                 return SecurityUser.anonymous();
             }
         }
 
-        log.debug("API Gateway 사용자 인증 성공: userId={}, username={}", userId, username);
+        log.debug("API Gateway 사용자 인증 성공: userId={}, username={}", "***", "***");
         return SecurityUser.authenticated(userId, username, email, roles);
     }
 
