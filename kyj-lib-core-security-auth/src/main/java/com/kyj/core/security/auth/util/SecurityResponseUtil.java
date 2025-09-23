@@ -1,8 +1,7 @@
 package com.kyj.core.security.auth.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kyj.core.api.ResApiDTO;
-import com.kyj.core.api.ResApiErrDTO;
+import com.kyj.core.api.ApiResponse;
 import com.kyj.core.security.auth.exception.SecurityErrorCode;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,7 @@ import java.io.IOException;
 /**
  * 2025-09-21
  * @author 김용준
- * 보안 관련 HTTP 응답 유틸리티 (kyj-lib-core API 응답 포맷 사용)
+ * 보안 관련 HTTP 응답 유틸리티 (ApiResponse 사용)
  */
 @Slf4j
 public final class SecurityResponseUtil {
@@ -26,7 +25,7 @@ public final class SecurityResponseUtil {
     }
 
     /**
-     * 성공 응답 작성 (kyj-lib-core ResApiDTO 사용)
+     * 성공 응답 작성 (ApiResponse 사용)
      */
     public static void writeSuccessResponse(HttpServletResponse response) throws IOException {
         writeSuccessResponse(response, null);
@@ -36,7 +35,7 @@ public final class SecurityResponseUtil {
      * 성공 응답 작성 (데이터 포함)
      */
     public static void writeSuccessResponse(HttpServletResponse response, Object data) throws IOException {
-        ResApiDTO<Object> responseBody = new ResApiDTO<>(data);
+        ApiResponse<Object> responseBody = ApiResponse.success().data(data).build();
 
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -45,7 +44,7 @@ public final class SecurityResponseUtil {
     }
 
     /**
-     * 에러 응답 작성 (kyj-lib-core ResApiErrDTO 사용)
+     * 에러 응답 작성 (ApiResponse 사용)
      */
     public static void writeErrorResponse(HttpServletResponse response, HttpStatus httpStatus, SecurityErrorCode errorCode) {
         writeErrorResponse(response, httpStatus, errorCode, null);
@@ -56,7 +55,12 @@ public final class SecurityResponseUtil {
      */
     public static void writeErrorResponse(HttpServletResponse response, HttpStatus httpStatus, SecurityErrorCode errorCode, Object data) {
         try {
-            ResApiErrDTO<Object> responseBody = new ResApiErrDTO<>(errorCode.getMessage(), httpStatus.value(), data, errorCode.getCode());
+            ApiResponse<Object> responseBody = ApiResponse.error()
+                    .msg(errorCode.getMessage())
+                    .status(httpStatus.value())
+                    .code(errorCode.getCode())
+                    .data(data)
+                    .build();
 
             response.setStatus(httpStatus.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -73,12 +77,11 @@ public final class SecurityResponseUtil {
      */
     public static void writeErrorResponse(HttpServletResponse response, HttpStatus httpStatus, SecurityErrorCode errorCode, String customMessage) {
         try {
-            ResApiErrDTO<Object> responseBody = new ResApiErrDTO<>(
-                    customMessage != null ? customMessage : errorCode.getMessage(),
-                    httpStatus.value(),
-                    null,
-                    errorCode.getCode()
-            );
+            ApiResponse<Object> responseBody = ApiResponse.error()
+                    .msg(customMessage != null ? customMessage : errorCode.getMessage())
+                    .status(httpStatus.value())
+                    .code(errorCode.getCode())
+                    .build();
 
             response.setStatus(httpStatus.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);

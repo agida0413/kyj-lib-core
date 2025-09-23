@@ -1,5 +1,6 @@
 package com.kyj.core.async;
 
+import com.kyj.core.api.ApiResponse;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import java.util.concurrent.Executor;
 @Configuration
 @EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
+
 
     /**
      * 비동기사용을 위한 Excutor를 설정한다.
