@@ -1,15 +1,24 @@
 package com.kyj.core.api;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 /**
 * 2025-05-29
 * @author 김용준
 * Restful Api에서 사용하는 성공응답 wrapper 클래스
+*
+* @deprecated ApiResponse.success 사용
+*
 */
+@Deprecated
 @Getter
-public class ResApiDTO <T> extends BaseResDTO{
+@Builder
+
+public class ResApiDTO <T> extends BaseResponse {
 
     /**
     * 기본 생성자(응답 데이터가 없는)

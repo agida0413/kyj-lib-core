@@ -2,7 +2,7 @@ package com.kyj.core.exception.handler;
 
 import com.kyj.core.exception.custom.*;
 import com.kyj.core.api.ErrCode;
-import com.kyj.core.api.ResApiErrDTO;
+import com.kyj.core.api.ApiResponse;
 import com.kyj.core.api.CmErrCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * 2025-05-30
  * @author 김용준
- * Restful Api에서 사용하는 에러응답객체에 대한 메시지 혹은 상태값 등을 결정해주는 Helper클래스이다.
+ * Restful Api에서 사용하는 에러응답객체에 대한 메시지 혹은 상태값 등을 결정해주는 Helper클래스 (ApiResponse 사용)
  */
 @Component
 public class ErrHelper {
@@ -26,11 +26,15 @@ public class ErrHelper {
      * @param ex
      * @return
      */
-    public static ResApiErrDTO<Void> determineErrRes(Exception ex){
+    public static ApiResponse<Void> determineErrRes(Exception ex){
         String msg = determineErrMsg(ex);
         HttpStatus status = determineErrStatus(ex);
         String apiErrCode = determineErrCode(ex);
-        return new ResApiErrDTO<>(msg, status.value(), apiErrCode);
+        return ApiResponse.error()
+                .msg(msg)
+                .status(status.value())
+                .code(apiErrCode)
+                .build();
     }
 
 

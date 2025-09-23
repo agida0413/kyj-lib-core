@@ -1,8 +1,10 @@
 package com.kyj.core.async.err;
 
+import com.kyj.core.api.ApiResponse;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * 2025-05-29
@@ -15,5 +17,7 @@ public class BaseAsyncHandleErr implements AsyncHandleErr{
     public void handleAsncErr(Throwable ex, Method method) {
         System.out.println("ex = " + ex);
         System.out.println("method.getName() = " + method.getName());
+
+        ApiResponse<Object> ok = ApiResponse.ok();
     }
 }

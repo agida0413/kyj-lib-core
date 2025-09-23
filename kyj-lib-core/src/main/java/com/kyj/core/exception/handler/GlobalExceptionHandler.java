@@ -1,6 +1,6 @@
 package com.kyj.core.exception.handler;
 
-import com.kyj.core.api.ResApiErrDTO;
+import com.kyj.core.api.ApiResponse;
 import com.kyj.core.api.CmErrCode;
 import com.kyj.core.exception.custom.KyjBaseException;
 import com.kyj.core.exception.custom.KyjBatException;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 2025-05-29
  * @author 김용준
- * Restful Api에서 사용하는 글로벌 익셉션 핸들러
+ * Restful Api에서 사용하는 글로벌 익셉션 핸들러 (ApiResponse 사용)
  */
 @Slf4j
 @RestControllerAdvice
@@ -30,12 +30,12 @@ public class GlobalExceptionHandler {
      * @return ResponseEntity
      */
     @ExceptionHandler(KyjBaseException.class)
-    public ResponseEntity<ResApiErrDTO<?>> handleBaseException(KyjBaseException ex){
+    public ResponseEntity<ApiResponse<?>> handleBaseException(KyjBaseException ex){
 
-       ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(ex);
+       ApiResponse<Void> apiResponse = ErrHelper.determineErrRes(ex);
         return ResponseEntity
-                .status(HttpStatus.valueOf(resApiErrDTO.getStatus()))
-                .body(resApiErrDTO);
+                .status(HttpStatus.valueOf(apiResponse.getStatus()))
+                .body(apiResponse);
     }
 
 
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
      */
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResApiErrDTO<?>> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<?>> handleValidationException(MethodArgumentNotValidException ex) {
 
         // 타입 오류???
         List<String> list = new ArrayList<>();
@@ -62,11 +62,15 @@ public class GlobalExceptionHandler {
         String msg = list.isEmpty() ? "잘못된 요청입니다." : list.get(0);
         msg = list.get(0);
         log.error("MethodNotArgException 발생");
-        ResApiErrDTO<Void> resApiErrDTO = new ResApiErrDTO<>(msg, HttpStatus.BAD_REQUEST.value(), CmErrCode.CM002.getCode());
+        ApiResponse<Void> apiResponse = ApiResponse.error()
+                .msg(msg)
+                .status(HttpStatus.BAD_REQUEST.value())
+                .code(CmErrCode.CM002.getCode())
+                .build();
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
-                .body(resApiErrDTO);
+                .body(apiResponse);
     }
     /**
      * 유효성 익셉션 핸들러
@@ -75,13 +79,13 @@ public class GlobalExceptionHandler {
      * @return ResponseEntity
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResApiErrDTO<?>> handleValidationException(Exception ex) {
+    public ResponseEntity<ApiResponse<?>> handleValidationException(Exception ex) {
 
         ex = new KyjSysException(CmErrCode.CM002);
-        ResApiErrDTO<Void> resApiErrDTO = ErrHelper.determineErrRes(ex);
+        ApiResponse<Void> apiResponse = ErrHelper.determineErrRes(ex);
         return ResponseEntity
-                .status(HttpStatus.valueOf(resApiErrDTO.getStatus()))
-                .body(resApiErrDTO);
+                .status(HttpStatus.valueOf(apiResponse.getStatus()))
+                .body(apiResponse);
     }
 
 

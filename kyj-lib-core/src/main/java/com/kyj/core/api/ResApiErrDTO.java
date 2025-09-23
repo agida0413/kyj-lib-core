@@ -7,9 +7,13 @@ import org.springframework.http.HttpStatus;
  * 2025-05-29
  * @author 김용준
  * Restful Api에서 사용하는 실패응답 wrapper 클래스
+ *
+ * @deprecated ApiResponse.error() 사용
+ *
  */
+@Deprecated
 @Getter
-public class ResApiErrDTO <T> extends BaseResDTO{
+public class ResApiErrDTO <T> extends BaseResponse {
     /**
      * 메시지와 스테이터스를 인자로받는 생성자
      * @param msg
