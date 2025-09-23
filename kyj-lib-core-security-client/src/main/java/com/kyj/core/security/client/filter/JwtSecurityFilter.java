@@ -39,8 +39,14 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         try {
             SecurityUser user = extractUserFromToken(request);
 
-            // 인증 실패시 공통 응답으로 처리
-            if (!user.isAuthenticated() && !EndpointMatcher.isPublicEndpoint(request)) {
+            // 토큰 만료시 GONE 응답으로 클라이언트에 재발급 유도
+            if (user.isExpired()) {
+                SecurityResponseUtil.writeErrorResponse(response, HttpStatus.GONE, SecurityErrorCode.SEC011);
+                return;
+            }
+
+            // 인증 실패시 공통 응답으로 처리 (퍼블릭 엔드포인트는 shouldNotFilter에서 처리)
+            if (!user.isAuthenticated()) {
                 SecurityResponseUtil.writeErrorResponse(response, HttpStatus.UNAUTHORIZED, SecurityErrorCode.SEC010);
                 return;
             }
@@ -54,10 +60,8 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        return path.startsWith("/actuator") ||
-               path.startsWith("/health") ||
-               path.startsWith("/favicon.ico");
+        // 설정된 정적 퍼블릭 엔드포인트만 필터에서 제외 (애노테이션 기반은 인터셉터에서 처리)
+        return EndpointMatcher.isStaticPublicEndpoint(request, properties.getStaticPublicEndpoints());
     }
 
     /**
@@ -72,7 +76,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         }
 
         try {
-            // 블랙리스트 체크 (활성화된 경우)
+            // 토큰 블랙리스트 체크 (활성화된 경우)
             if (properties.isEnableBlacklist() && blacklistService != null) {
                 if (blacklistService.isTokenBlacklisted(token)) {
                     log.warn("블랙리스트 토큰 접근 차단");
@@ -83,7 +87,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             // JWT 토큰 파싱 - security-auth 모듈의 AuthJWTUtil 사용
             if (authJWTUtil.isExpired(token)) {
                 log.debug("만료된 JWT 토큰");
-                return SecurityUser.anonymous();
+                return SecurityUser.expired(); // 토큰 만료 상태 표시
             }
 
             if (!authJWTUtil.validate(token)) {
@@ -98,19 +102,20 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
             // 필수 정보 확인
             if (!StringUtils.hasText(userId) || !StringUtils.hasText(username)) {
-                log.debug("JWT 토큰에 필수 정보 없음: userId={}, username={}", userId, username);
+                log.debug("JWT 토큰에 필수 정보 없음: userId={}, username={}",
+                     userId != null ? "***" : null, username != null ? "***" : null);
                 return SecurityUser.anonymous();
             }
 
             // 사용자 블랙리스트 체크 (활성화된 경우)
             if (properties.isEnableBlacklist() && blacklistService != null) {
                 if (blacklistService.isUserBlacklisted(userId)) {
-                    log.warn("블랙리스트 사용자 접근 차단: {}", userId);
+                    log.warn("블랙리스트 사용자 접근 차단: {}", "***");
                     return SecurityUser.anonymous();
                 }
             }
 
-            log.debug("JWT 사용자 인증 성공: userId={}, username={}", userId, username);
+            log.debug("JWT 사용자 인증 성공: userId={}, username={}", "***", "***");
             return SecurityUser.authenticated(userId, username, email, roles);
 
         } catch (Exception e) {

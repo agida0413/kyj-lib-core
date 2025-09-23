@@ -3,6 +3,9 @@ package com.kyj.core.security.client.config;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Security Client 설정 프로퍼티
  */
@@ -27,6 +30,14 @@ public class SecurityProperties {
      * Redis가 없으면 무시됨
      */
     private boolean enableBlacklist = true;
+
+    /**
+     * 정적 퍼블릭 엔드포인트 목록 (인증 불필요)
+     * 기본값: /actuator, /health, /favicon.ico, /error
+     */
+    private List<String> staticPublicEndpoints = Arrays.asList(
+            "/actuator", "/health", "/favicon.ico", "/error"
+    );
 
     /**
      * API Gateway 헤더 설정

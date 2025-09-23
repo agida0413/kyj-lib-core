@@ -164,6 +164,14 @@ kyj:
         email-header: "X-Email"
         roles-header: "X-Roles"
         token-header: "X-Token"
+      static-public-endpoints:
+        - /actuator
+        - /health
+        - /favicon.ico
+        - /error
+        - /api/public
+        - /docs
+
 
 # ===== 로깅 설정 =====
 logging:

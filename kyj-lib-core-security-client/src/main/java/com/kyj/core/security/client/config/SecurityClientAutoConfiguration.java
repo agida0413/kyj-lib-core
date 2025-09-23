@@ -122,8 +122,8 @@ public class SecurityClientAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public SecurityInterceptor securityInterceptor() {
+    public SecurityInterceptor securityInterceptor(SecurityProperties properties) {
         log.info("보안 인터셉터 등록 완료");
-        return new SecurityInterceptor();
+        return new SecurityInterceptor(properties);
     }
 }
