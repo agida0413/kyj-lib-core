@@ -190,6 +190,7 @@ kyj:
   security:
     # 인증 서버 설정 (kyj-lib-core-security-auth 사용시)
     auth:
+      enabled: true  # 인증 서버 모듈 활성화 (기본값: true)
       token:
         secret: ${JWT_SECRET:your-super-secret-jwt-key-at-least-32-characters-long}
         access-token-expiry: 3600000      # 1시간
@@ -199,7 +200,7 @@ kyj:
         failure-redirect-url: ${FRONTEND_URL:http://localhost:3000}/auth/failure
         logout-redirect-url: ${FRONTEND_URL:http://localhost:3000}
     client:
-      enabled: true
+      enabled: true # 클라이언트 모듈 활성화 (기본값: true)
       use-api-gateway: false  # true: API Gateway, false: JWT
       enable-blacklist: true
       api-gateway:

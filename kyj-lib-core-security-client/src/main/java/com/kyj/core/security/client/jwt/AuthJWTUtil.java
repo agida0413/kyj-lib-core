@@ -26,7 +26,7 @@ import java.util.Map;
  * OAuth2 인증/인가 서버에서 사용하는 JWT 유틸리티
  */
 @Slf4j
-@Component
+// @Component 제거
 public class AuthJWTUtil {
 
     private final SecretKey secretKey;
