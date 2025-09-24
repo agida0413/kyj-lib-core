@@ -9,7 +9,7 @@ pipeline {
     parameters {
         choice(
             name: 'DEPLOY_TYPE',
-            choices: ['CORE_ONLY', 'WITH_KAFKA', 'WITH_REDIS', 'WITH_FILE', 'WITH_JPA', 'WITH_RDB', 'WITH_SECURITY_CLIENT', 'WITH_SECURITY_AUTH', 'WITH_SECURITY', 'ALL_MODULES'],
+            choices: ['CORE_ONLY', 'WITH_KAFKA', 'WITH_REDIS', 'WITH_FILE', 'WITH_JPA', 'WITH_RDB', 'WITH_SECURITY_CLIENT', 'WITH_SECURITY_AUTH', 'WITH_SECURITY', 'WITH_BATCH', 'WITH_WEBSOCKET', 'BATCH_WITH_REDIS', 'WEBSOCKET_WITH_REDIS', 'WEBSOCKET_WITH_SECURITY', 'BATCH_WITH_WEBSOCKET', 'FULL_STACK', 'ALL_MODULES'],
             description: '배포할 모듈 선택'
         )
         choice(
@@ -123,6 +123,34 @@ pipeline {
                         case 'WITH_SECURITY':
                             deployCommand = "./gradlew publishWithSecurity"
                             echo "코어 + 레디스 + 카프카 + 모든 시큐리티 모듈을 배포합니다."
+                            break
+                        case 'WITH_BATCH':
+                            deployCommand = "./gradlew publishWithBatch"
+                            echo "코어 + 배치 모듈을 배포합니다."
+                            break
+                        case 'WITH_WEBSOCKET':
+                            deployCommand = "./gradlew publishWithWebSocket"
+                            echo "코어 + 웹소켓 모듈을 배포합니다."
+                            break
+                        case 'BATCH_WITH_REDIS':
+                            deployCommand = "./gradlew publishBatchWithRedis"
+                            echo "코어 + 레디스 + 배치 모듈을 배포합니다."
+                            break
+                        case 'WEBSOCKET_WITH_REDIS':
+                            deployCommand = "./gradlew publishWebSocketWithRedis"
+                            echo "코어 + 레디스 + 웹소켓 모듈을 배포합니다."
+                            break
+                        case 'WEBSOCKET_WITH_SECURITY':
+                            deployCommand = "./gradlew publishWebSocketWithSecurity"
+                            echo "코어 + 레디스 + 시큐리티 클라이언트 + 웹소켓 모듈을 배포합니다."
+                            break
+                        case 'BATCH_WITH_WEBSOCKET':
+                            deployCommand = "./gradlew publishBatchWithWebSocket"
+                            echo "코어 + 배치 + 웹소켓 모듈을 배포합니다."
+                            break
+                        case 'FULL_STACK':
+                            deployCommand = "./gradlew publishFullStack"
+                            echo "코어 + 필수 모듈들 (Redis, Kafka, Security, Batch, WebSocket)을 배포합니다."
                             break
                         case 'ALL_MODULES':
                             deployCommand = "./gradlew publishAll"

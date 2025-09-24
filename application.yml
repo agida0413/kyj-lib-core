@@ -143,6 +143,50 @@ s3:
 
 # ===== KYJ 모듈 설정 =====
 kyj:
+  # 배치 모듈 설정 (kyj-lib-core-batch 사용시)
+  batch:
+    enabled: true
+    default-chunk-size: 1000
+    job-parameters:
+      global:
+        timezone: "Asia/Seoul"
+    scheduling:
+      enabled: false
+    notification:
+      enabled: false
+      notify-on-success: false
+      notify-on-failure: true
+
+  # 웹소켓 모듈 설정 (kyj-lib-core-ws 사용시)
+  websocket:
+    enabled: true
+    endpoint: "/ws"
+    sock-js-enabled: true
+    allowed-origins:
+      - "*"
+    message-broker:
+      subscription-prefixes:
+        - "/topic"
+        - "/queue"
+      application-destination-prefixes:
+        - "/app"
+      user-destination-prefix: "/user"
+    authentication:
+      enabled: false
+      use-jwt: false
+      use-session: true
+    session-management:
+      enabled: true
+      max-sessions: 0
+      session-timeout: 0
+      storage-type: "memory"
+    message-processing:
+      enabled: true
+      message-queue-size: 1000
+      processing-threads: 5
+      max-message-size: 1048576  # 1MB
+      enable-broadcast: true
+
   security:
     # 인증 서버 설정 (kyj-lib-core-security-auth 사용시)
     auth:

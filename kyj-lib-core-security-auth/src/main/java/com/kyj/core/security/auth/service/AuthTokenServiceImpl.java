@@ -2,10 +2,10 @@ package com.kyj.core.security.auth.service;
 
 import com.kyj.core.security.auth.constants.RedisKeys;
 import com.kyj.core.security.auth.dto.AuthMemberDTO;
-import com.kyj.core.security.auth.exception.SecurityErrorCode;
+import com.kyj.core.security.client.exception.SecurityErrorCode;
 import com.kyj.core.security.auth.exception.SecurityException;
-import com.kyj.core.security.auth.jwt.AuthJWTUtil;
-import com.kyj.core.security.auth.util.SecurityResponseUtil;
+import com.kyj.core.security.client.jwt.AuthJWTUtil;
+import com.kyj.core.security.client.util.SecurityResponseUtil;
 import com.kyj.core.util.CookieUtil;
 import com.kyj.core.security.auth.util.ResponseCookieHelper;
 import jakarta.servlet.http.HttpServletRequest;

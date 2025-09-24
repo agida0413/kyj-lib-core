@@ -9,4 +9,6 @@ include 'kyj-lib-core-jpa'       // JPA 모듈
 include 'kyj-lib-core-rdb'       // RDB 모듈
 include 'kyj-lib-core-security-client'  // 시큐리티 클라이언트 모듈
 include 'kyj-lib-core-security-auth'    // 시큐리티 인증서버 모듈
+include 'kyj-lib-core-batch'            // 배치 모듈
+include 'kyj-lib-core-ws'               // 웹소켓 모듈
 

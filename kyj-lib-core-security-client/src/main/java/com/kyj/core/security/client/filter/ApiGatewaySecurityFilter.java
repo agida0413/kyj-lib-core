@@ -1,8 +1,8 @@
 package com.kyj.core.security.client.filter;
 
 import com.kyj.core.api.CmErrCode;
-import com.kyj.core.security.auth.exception.SecurityErrorCode;
-import com.kyj.core.security.auth.util.SecurityResponseUtil;
+import com.kyj.core.security.client.exception.SecurityErrorCode;
+import com.kyj.core.security.client.util.SecurityResponseUtil;
 import com.kyj.core.security.client.config.SecurityProperties;
 import com.kyj.core.security.client.dto.SecurityUser;
 import com.kyj.core.security.client.service.TokenBlacklistService;

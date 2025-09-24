@@ -6,7 +6,6 @@ import com.kyj.core.security.auth.dto.oauth2.GoogleResponse;
 import com.kyj.core.security.auth.dto.oauth2.KakaoResponse;
 import com.kyj.core.security.auth.dto.oauth2.NaverResponse;
 import com.kyj.core.security.auth.dto.oauth2.OAuth2Response;
-import com.kyj.core.security.auth.util.SecurityResponseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

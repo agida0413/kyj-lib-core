@@ -1,7 +1,7 @@
 package com.kyj.core.security.auth.controller;
 
 import com.kyj.core.security.auth.service.AuthTokenService;
-import com.kyj.core.security.auth.util.SecurityResponseUtil;
+import com.kyj.core.security.client.util.SecurityResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

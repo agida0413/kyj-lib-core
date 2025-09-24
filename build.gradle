@@ -122,6 +122,46 @@ task publishWithSecurity {
 	description = '코어 + 레디스 + 카프카 + 모든 시큐리티 모듈 배포'
 }
 
+// ===== 새로운 모듈 배포 태스크 =====
+task publishWithBatch {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-batch:publish'
+	description = '코어 + 배치 모듈 배포'
+}
+
+task publishWithWebSocket {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-ws:publish'
+	description = '코어 + 웹소켓 모듈 배포'
+}
+
+// ===== 조합 배포 태스크 =====
+task publishBatchWithRedis {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-redis:publish', ':kyj-lib-core-batch:publish'
+	description = '코어 + 레디스 + 배치 모듈 배포 (배치에서 Redis 세션 관리시 유용)'
+}
+
+task publishWebSocketWithRedis {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-redis:publish', ':kyj-lib-core-ws:publish'
+	description = '코어 + 레디스 + 웹소켓 모듈 배포 (분산 세션 관리시 유용)'
+}
+
+task publishWebSocketWithSecurity {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-redis:publish', ':kyj-lib-core-security-client:publish', ':kyj-lib-core-ws:publish'
+	description = '코어 + 레디스 + 시큐리티 클라이언트 + 웹소켓 모듈 배포 (인증이 필요한 웹소켓)'
+}
+
+task publishBatchWithWebSocket {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-batch:publish', ':kyj-lib-core-ws:publish'
+	description = '코어 + 배치 + 웹소켓 모듈 배포 (배치 진행상황 실시간 모니터링)'
+}
+
+// ===== 통합 배포 태스크 =====
+task publishFullStack {
+	dependsOn ':kyj-lib-core:publish', ':kyj-lib-core-redis:publish', ':kyj-lib-core-kafka:publish',
+			  ':kyj-lib-core-security-client:publish', ':kyj-lib-core-security-auth:publish',
+			  ':kyj-lib-core-batch:publish', ':kyj-lib-core-ws:publish'
+	description = '코어 + 필수 모듈들 (Redis, Kafka, Security, Batch, WebSocket) 배포'
+}
+
 task publishAll {
 	dependsOn subprojects.collect { ":${it.name}:publish" }
 	description = '모든 모듈 배포'

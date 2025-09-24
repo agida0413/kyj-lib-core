@@ -1,6 +1,6 @@
 package com.kyj.core.security.client.config;
 
-import com.kyj.core.security.auth.jwt.AuthJWTUtil;
+import com.kyj.core.security.client.jwt.AuthJWTUtil;
 import com.kyj.core.security.client.filter.ApiGatewaySecurityFilter;
 import com.kyj.core.security.client.filter.JwtSecurityFilter;
 import com.kyj.core.security.client.interceptor.SecurityInterceptor;

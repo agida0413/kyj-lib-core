@@ -1,7 +1,7 @@
-package com.kyj.core.security.auth.jwt;
+package com.kyj.core.security.client.jwt;
 
-import com.kyj.core.security.auth.exception.SecurityErrorCode;
-import com.kyj.core.security.auth.util.SecurityResponseUtil;
+import com.kyj.core.security.client.exception.SecurityErrorCode;
+import com.kyj.core.security.client.util.SecurityResponseUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
