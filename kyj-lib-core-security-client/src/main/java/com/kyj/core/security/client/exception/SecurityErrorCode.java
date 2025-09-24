@@ -1,4 +1,4 @@
-package com.kyj.core.security.auth.exception;
+package com.kyj.core.security.client.exception;
 
 import lombok.Getter;
 

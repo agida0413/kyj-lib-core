@@ -1,8 +1,8 @@
-package com.kyj.core.security.auth.util;
+package com.kyj.core.security.client.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyj.core.api.ApiResponse;
-import com.kyj.core.security.auth.exception.SecurityErrorCode;
+import com.kyj.core.security.client.exception.SecurityErrorCode;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

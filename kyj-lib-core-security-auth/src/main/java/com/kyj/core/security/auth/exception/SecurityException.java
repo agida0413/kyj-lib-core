@@ -1,5 +1,7 @@
 package com.kyj.core.security.auth.exception;
 
+import com.kyj.core.security.client.exception.SecurityErrorCode;
+
 /**
  * 2025-09-21
  * @author 김용준

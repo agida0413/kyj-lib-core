@@ -18,6 +18,6 @@ public class BaseAsyncHandleErr implements AsyncHandleErr{
         System.out.println("ex = " + ex);
         System.out.println("method.getName() = " + method.getName());
 
-        ApiResponse<Object> ok = ApiResponse.ok();
+        ApiResponse.ok()
     }
 }
