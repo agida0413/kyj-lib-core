@@ -80,16 +80,18 @@ public class BatchJobBuilder {
         private final JobRepository jobRepository;
 
         public Job build(Step... steps) {
-            JobBuilder jobBuilder = new JobBuilder(jobName, jobRepository);
+            var jobBuilder = new JobBuilder(jobName, jobRepository);
 
             if (steps.length > 0) {
-                jobBuilder.start(steps[0]);
+                var flowBuilder = jobBuilder.start(steps[0]);
                 for (int i = 1; i < steps.length; i++) {
-                    jobBuilder.next(steps[i]);
+                    flowBuilder = flowBuilder.next(steps[i]);
                 }
+                return flowBuilder.build();
             }
 
-            return jobBuilder.build();
+            // 빈 Job이 필요한 경우 기본 Step을 생성
+            throw new IllegalArgumentException("최소 하나의 Step이 필요합니다.");
         }
 
         public Job buildFlow(Step step) {
