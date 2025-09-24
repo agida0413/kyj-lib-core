@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Security Client 자동 설정
@@ -23,7 +24,19 @@ import org.springframework.data.redis.core.RedisTemplate;
 @AutoConfiguration
 @EnableConfigurationProperties(SecurityProperties.class)
 @ConditionalOnProperty(prefix = "kyj.security.client", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnMissingBean(name = "authSecurityAutoConfiguration") // 인증서버 설정이 없을 때만 활성화
 public class SecurityClientAutoConfiguration {
+
+    /**
+     * AuthJWTUtil 빈 등록 (인증서버에 없는 경우만)
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = "authJWTUtil")
+    @ConditionalOnProperty(prefix = "kyj.security.client", name = "use-api-gateway", havingValue = "false", matchIfMissing = true)
+    public AuthJWTUtil authJWTUtil(@Value("${kyj.security.auth.token.secret}") String secret) {
+        log.info("시큐리티 클라이언트용 AuthJWTUtil 등록 (인증서버 모듈 없음)");
+        return new AuthJWTUtil(secret);
+    }
 
     /**
      * TokenBlacklistService 빈 등록 (Redis가 있는 경우만)
