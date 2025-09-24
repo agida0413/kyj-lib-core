@@ -22,6 +22,6 @@ dependencies {
 	if (project.hasProperty('localDev') && project.property('localDev') == 'true') {
 		testImplementation project(':kyj-lib-core')
 		testImplementation project(':kyj-lib-core-redis')
-		testImplementation project(':kyj-lib-security-client')
+		testImplementation project(':kyj-lib-core-security-client')
 	}
 }
