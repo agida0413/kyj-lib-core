@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  */
 @Getter
 @Setter
-@Component
 @ConfigurationProperties(prefix = "kyj.security.auth")
 public class AuthSecurityProperties {
 
