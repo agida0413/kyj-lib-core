@@ -31,7 +31,7 @@ public class DefaultAuthMemberService implements AuthMemberService {
         memberDTO.setUserId(1L); // 임시 사용자 ID
         memberDTO.setUsername(oAuth2Response.getEmail());
         memberDTO.setEmail(oAuth2Response.getEmail());
-        memberDTO.setNickname(oAuth2Response.getNickname());
+//        memberDTO.setNickname(oAuth2Response.getNickname());
         memberDTO.setRole("ROLE_USER");
         memberDTO.setProvider(oAuth2Response.getProvider());
         memberDTO.setProviderId(oAuth2Response.getProviderId());
