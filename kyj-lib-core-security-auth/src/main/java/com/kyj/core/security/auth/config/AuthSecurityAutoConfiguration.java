@@ -28,7 +28,7 @@ import com.kyj.core.security.client.config.SecurityProperties;
 @Slf4j
 @AutoConfiguration
 @EnableWebSecurity
-@EnableConfigurationProperties(AuthSecurityProperties.class)
+@EnableConfigurationProperties({AuthSecurityProperties.class})
 @ConditionalOnProperty(prefix = "kyj.security.auth", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AuthSecurityAutoConfiguration {
 
