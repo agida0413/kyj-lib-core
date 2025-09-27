@@ -47,18 +47,9 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
 
   # ===== Redis 설정 (kyj-lib-core-redis) =====
-  data:
-    redis:
-      host: 100.114.34.71
-      port: 6380
-      # password는 프로파일별 설정
-      timeout: 2000ms
-      lettuce:
-        pool:
-          max-active: 8
-          max-idle: 8
-          min-idle: 0
-          max-wait: -1ms
+  redis:
+    host: 100.114.34.71
+    port: 6380
 
   # ===== Kafka 설정 (kyj-lib-core-kafka) =====
   kafka:
