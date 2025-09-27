@@ -6,6 +6,8 @@ import com.kyj.core.security.auth.service.AuthTokenServiceImpl;
 import com.kyj.core.security.auth.service.CustomOAuth2UserService;
 import com.kyj.core.security.auth.service.AuthMemberService;
 import com.kyj.core.security.auth.handler.OAuth2SuccessHandler;
+import com.kyj.core.security.auth.handler.CustomAuthenticationEntryPoint;
+import com.kyj.core.security.auth.handler.CustomAccessDeniedHandler;
 import com.kyj.core.security.auth.controller.AuthTokenController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -21,6 +23,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import com.kyj.core.security.client.config.SecurityProperties;
+import com.kyj.core.security.client.util.EndpointMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 인증서버 자동 설정
@@ -95,10 +100,20 @@ public class AuthSecurityAutoConfiguration {
             HttpSecurity http,
             CustomOAuth2UserService customOAuth2UserService,
             OAuth2SuccessHandler oAuth2SuccessHandler,
+            CustomAuthenticationEntryPoint authenticationEntryPoint,
+            CustomAccessDeniedHandler accessDeniedHandler,
             AuthSecurityProperties authProperties,
             SecurityProperties securityProperties) throws Exception {
 
         log.info("OAuth2 SecurityFilterChain 등록");
+
+        // @PublicEndpoint 어노테이션 매처 생성
+        RequestMatcher publicEndpointMatcher = new RequestMatcher() {
+            @Override
+            public boolean matches(HttpServletRequest request) {
+                return EndpointMatcher.isPublicEndpoint(request, securityProperties.getStaticPublicEndpoints());
+            }
+        };
 
         // 퍼블릭 엔드포인트 목록 가져오기
         String[] publicEndpoints = securityProperties.getStaticPublicEndpoints().toArray(new String[0]);
@@ -113,8 +128,13 @@ public class AuthSecurityAutoConfiguration {
                 .successHandler(oAuth2SuccessHandler)
                 .failureUrl(authProperties.getOauth2().getFailureRedirectUrl()))
             .authorizeHttpRequests(authz -> authz
+                .requestMatchers("/oauth2/**", "/login/**").permitAll()
                 .requestMatchers(publicEndpoints).permitAll()
+                .requestMatchers(publicEndpointMatcher).permitAll() // @PublicEndpoint 어노테이션 매칭
                 .anyRequest().authenticated())
+            .exceptionHandling(exceptions -> exceptions
+                .authenticationEntryPoint(authenticationEntryPoint) // 인증 실패 시 JSON 응답
+                .accessDeniedHandler(accessDeniedHandler)) // 인가 실패 시 JSON 응답
             .build();
     }
 }
