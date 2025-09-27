@@ -18,12 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import com.kyj.core.util.CookieUtil;
 
 import java.io.IOException;
 
 /**
  * 일반 JWT 모드 보안 필터
- * Authorization 헤더에서 JWT 토큰을 추출하여 검증하고 사용자 정보를 처리
+ * Authorization 헤더 또는 쿠키에서 JWT 토큰을 추출하여 검증하고 사용자 정보를 처리
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -68,7 +69,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
      * JWT 토큰에서 사용자 정보 추출
      */
     private SecurityUser extractUserFromToken(HttpServletRequest request) {
-        String token = extractTokenFromHeader(request);
+        String token = extractTokenFromRequest(request);
 
         if (!StringUtils.hasText(token)) {
             log.debug("JWT 토큰이 없음");
@@ -125,13 +126,19 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Authorization 헤더에서 JWT 토큰 추출
+     * Authorization 헤더 또는 쿠키에서 JWT 토큰 추출
      */
-    private String extractTokenFromHeader(HttpServletRequest request) {
+    private String extractTokenFromRequest(HttpServletRequest request) {
+        // 1. 먼저 Authorization 헤더 확인
         String authHeader = request.getHeader("Authorization");
-
         if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
             return authHeader.substring(7);
+        }
+
+        // 2. Authorization 쿠키 확인
+        String tokenFromCookie = (String) CookieUtil.getCookie("Authorization", request);
+        if (StringUtils.hasText(tokenFromCookie)) {
+            return tokenFromCookie;
         }
 
         return null;
