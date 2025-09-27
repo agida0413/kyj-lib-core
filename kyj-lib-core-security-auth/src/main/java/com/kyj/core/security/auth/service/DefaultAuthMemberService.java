@@ -3,7 +3,7 @@ package com.kyj.core.security.auth.service;
 import com.kyj.core.security.auth.dto.AuthMemberDTO;
 import com.kyj.core.security.auth.dto.oauth2.OAuth2Response;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +14,12 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@ConditionalOnMissingBean(AuthMemberService.class)
+@ConditionalOnProperty(
+        prefix = "kyj.security.auth",
+        name = "use-default-member-service",
+        havingValue = "true",
+        matchIfMissing = true
+)
 public class DefaultAuthMemberService implements AuthMemberService {
 
     @Override
