@@ -1,14 +1,14 @@
 dependencies {
 	// JWT 의존성 - compileOnly로 변경하여 중복 방지
-	compileOnly 'io.jsonwebtoken:jjwt-api:0.12.3'
+//	compileOnly 'io.jsonwebtoken:jjwt-api:0.12.3'
 	// 런타임 구현체는 사용하는 쪽에서 결정
 
 	// Spring Security - 필터와 인터셉터만 사용하므로 compileOnly
-	compileOnly 'org.springframework.boot:spring-boot-starter-security'
-	compileOnly 'org.springframework.boot:spring-boot-starter-web'
+/*	compileOnly 'org.springframework.boot:spring-boot-starter-security'
+	compileOnly 'org.springframework.boot:spring-boot-starter-web'*/
 
 	// Servlet API (필터 사용을 위해 필요)
-	compileOnly 'jakarta.servlet:jakarta.servlet-api'
+//	compileOnly 'jakarta.servlet:jakarta.servlet-api'
 
 	// 기존 모듈들 참조 (개발시 사용, 빌드시 제외)
 	compileOnly project(':kyj-lib-core')
@@ -21,7 +21,5 @@ dependencies {
 		implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 		runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
 		runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
-		implementation 'org.springframework.boot:spring-boot-starter-security'
-		implementation 'org.springframework.boot:spring-boot-starter-web'
 	}
 }
