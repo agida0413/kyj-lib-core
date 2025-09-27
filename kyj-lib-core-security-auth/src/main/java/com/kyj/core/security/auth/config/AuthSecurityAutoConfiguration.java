@@ -16,12 +16,18 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import com.kyj.core.security.client.config.SecurityProperties;
 
 /**
  * 인증서버 자동 설정
  */
 @Slf4j
 @AutoConfiguration
+@EnableWebSecurity
 @EnableConfigurationProperties(AuthSecurityProperties.class)
 @ConditionalOnProperty(prefix = "kyj.security.auth", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AuthSecurityAutoConfiguration {
@@ -78,5 +84,37 @@ public class AuthSecurityAutoConfiguration {
     public AuthTokenController authTokenController(AuthTokenService authTokenService) {
         log.info("AuthTokenController 등록");
         return new AuthTokenController(authTokenService);
+    }
+
+    /**
+     * OAuth2 인증을 위한 SecurityFilterChain 설정
+     */
+    @Bean(name = "authSecurityFilterChain")
+    @ConditionalOnMissingBean(name = "authSecurityFilterChain")
+    public SecurityFilterChain authSecurityFilterChain(
+            HttpSecurity http,
+            CustomOAuth2UserService customOAuth2UserService,
+            OAuth2SuccessHandler oAuth2SuccessHandler,
+            AuthSecurityProperties authProperties,
+            SecurityProperties securityProperties) throws Exception {
+
+        log.info("OAuth2 SecurityFilterChain 등록");
+
+        // 퍼블릭 엔드포인트 목록 가져오기
+        String[] publicEndpoints = securityProperties.getStaticPublicEndpoints().toArray(new String[0]);
+
+        return http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .oauth2Login(oauth2 -> oauth2
+                .userInfoEndpoint(userInfo -> userInfo
+                    .userService(customOAuth2UserService))
+                .successHandler(oAuth2SuccessHandler)
+                .failureUrl(authProperties.getOauth2().getFailureRedirectUrl()))
+            .authorizeHttpRequests(authz -> authz
+                .requestMatchers(publicEndpoints).permitAll()
+                .anyRequest().authenticated())
+            .build();
     }
 }
