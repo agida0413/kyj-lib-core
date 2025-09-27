@@ -1,6 +1,7 @@
 package com.kyj.core.security.auth.controller;
 
 import com.kyj.core.security.auth.service.AuthTokenService;
+import com.kyj.core.security.client.annotation.PublicEndpoint;
 import com.kyj.core.security.client.util.SecurityResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ public class AuthTokenController {
      * 토큰 재발급
      */
     @PostMapping("/reissue")
+    @PublicEndpoint
     public void reissueTokens(HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean success = authTokenService.reissueTokens(request, response);
 
@@ -43,6 +45,7 @@ public class AuthTokenController {
      * 로그아웃 (토큰 무효화)
      */
     @PostMapping("/logout")
+    @PublicEndpoint
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean success = authTokenService.logout(request, response);
 
@@ -55,9 +58,12 @@ public class AuthTokenController {
     /**
      * 인증 상태 확인
      */
-    @PostMapping("/verify")
-    public void verifyAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // JWT 필터에서 이미 인증이 완료된 상태라면 이 엔드포인트에 도달할 수 있음
-        SecurityResponseUtil.writeSuccessResponse(response, "인증된 사용자입니다.");
-    }
+//    @PostMapping("/verify")
+//    @PublicEndpoint
+//    public void verifyAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        // JWT 필터에서 이미 인증이 완료된 상태라면 이 엔드포인트에 도달할 수 있음
+//        SecurityResponseUtil.writeSuccessResponse(response, "인증된 사용자입니다.");
+//    }
+
+
 }
