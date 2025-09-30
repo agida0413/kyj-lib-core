@@ -106,7 +106,7 @@ public class AuthSecurityAutoConfiguration {
             SecurityProperties securityProperties) throws Exception {
 
         log.info("OAuth2 SecurityFilterChain 등록");
-    //필터체인에 등록되지않는다(HandlerMethod를 찾지못함)
+
         // @PublicEndpoint 어노테이션 매처 생성
         RequestMatcher publicEndpointMatcher = new RequestMatcher() {
             @Override
