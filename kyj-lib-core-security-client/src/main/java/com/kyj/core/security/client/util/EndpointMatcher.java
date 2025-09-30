@@ -57,12 +57,7 @@ public class EndpointMatcher {
             // HandlerMethod 조회를 통한 어노테이션 확인
             HandlerMethod handlerMethod = getHandlerMethod(request);
             if (handlerMethod != null) {
-                Method method = handlerMethod.getMethod();
-                Class<?> clazz = handlerMethod.getBeanType();
-
-                // 메서드 또는 클래스에 @PublicEndpoint 어노테이션이 있는지 확인
-                return method.isAnnotationPresent(PublicEndpoint.class) ||
-                       clazz.isAnnotationPresent(PublicEndpoint.class);
+                return isPublicEndpoint(handlerMethod);
             }
 
             return false;
@@ -70,6 +65,22 @@ public class EndpointMatcher {
             log.debug("퍼블릭 엔드포인트 확인 중 오류: {}", e.getMessage());
             return false; // 확인 실패시 인증 필요로 처리
         }
+    }
+
+    /**
+     * HandlerMethod로 퍼블릭 엔드포인트 여부 확인 (인터셉터용)
+     */
+    public static boolean isPublicEndpoint(HandlerMethod handlerMethod) {
+        if (handlerMethod == null) {
+            return false;
+        }
+
+        Method method = handlerMethod.getMethod();
+        Class<?> clazz = handlerMethod.getBeanType();
+
+        // 메서드 또는 클래스에 @PublicEndpoint 어노테이션이 있는지 확인
+        return method.isAnnotationPresent(PublicEndpoint.class) ||
+               clazz.isAnnotationPresent(PublicEndpoint.class);
     }
 
 
