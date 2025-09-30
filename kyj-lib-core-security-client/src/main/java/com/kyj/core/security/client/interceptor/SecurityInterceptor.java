@@ -38,11 +38,11 @@ public class SecurityInterceptor implements HandlerInterceptor {
         Method method = handlerMethod.getMethod();
         Class<?> clazz = handlerMethod.getBeanType();
 
-        // 1. @PublicEndpoint 확인 - 퍼블릭 엔드포인트는 권한 체크 불필요
-        if (EndpointMatcher.isPublicEndpoint(request, properties.getStaticPublicEndpoints())) {
-            log.debug("퍼블릭 엔드포인트 접근: {}", request.getRequestURI());
-            return true;
-        }
+//        // 1. @PublicEndpoint 확인 - 퍼블릭 엔드포인트는 권한 체크 불필요
+//        if (EndpointMatcher.isPublicEndpoint(handlerMethod)) {
+//            log.debug("퍼블릭 엔드포인트 접근: {}", request.getRequestURI());
+//            return true;
+//        }
 
         // 2. 사용자 정보 조회 (필터에서 이미 인증 체크 완료)
         SecurityUser user = SecurityContext.getUser();
@@ -53,7 +53,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
             if (!user.hasAnyRole(requiredRoles)) {
                 log.warn("권한 부족한 사용자 접근: {} (필요 권한: {}, 보유 권한: {}) -> {}",
                         "***", String.join(",", requiredRoles), user.getRoles() != null ? "***" : null, request.getRequestURI());
-                SecurityContext.requireRole(requiredRoles[0]); //하나만 넘김 
+                SecurityContext.requireRole(requiredRoles[0]); //하나만 넘김
             }
         }
 

@@ -61,7 +61,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        // 설정된 정적 퍼블릭 엔드포인트만 필터에서 제외 (애노테이션 기반은 인터셉터에서 처리)
+        // 정적 + 어노테이션 기반 퍼블릭 엔드포인트 모두 필터에서 제외
         return EndpointMatcher.isPublicEndpoint(request, properties.getStaticPublicEndpoints());
     }
 
