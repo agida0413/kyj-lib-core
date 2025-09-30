@@ -5,6 +5,7 @@ import com.kyj.core.exception.custom.KyjSysException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 
@@ -20,7 +21,8 @@ public class CookieUtil {
 
     static {
 
-        // system property 우선 읽고 없으면 environment variable 읽기
+        //정적 유틸을 제공하기위해서... 어쩔수 없지만 static으로 읽어들인다.
+        //인터페이스화 하여 설정별 빈등록을 고민...그건좀 아닌거같다(유틸성인데..)
         String activeProfile = System.getProperty("spring.profiles.active");
         if (activeProfile == null) {
             activeProfile = System.getenv("SPRING_PROFILES_ACTIVE");

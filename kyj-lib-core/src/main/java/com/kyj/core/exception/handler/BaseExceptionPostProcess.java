@@ -15,6 +15,6 @@ public class BaseExceptionPostProcess implements ExceptionPostProcess{
 
     @Override
     public void proceed(JoinPoint joinPoint) {
-
+            log.info("기본 예외 발생 후처리");
     }
 }
