@@ -61,9 +61,9 @@ public class GlobalExceptionHandler {
         });
         String msg = list.isEmpty() ? "잘못된 요청입니다." : list.get(0);
         msg = list.get(0);
-        log.error("MethodNotArgException 발생");
+        log.error("MethodNotArgException 발생 : {}",msg);
         ApiResponse<Void> apiResponse = ApiResponse.error()
-                .msg(msg)
+                .msg(CmErrCode.CM002.getMsg())
                 .status(HttpStatus.BAD_REQUEST.value())
                 .code(CmErrCode.CM002.getCode())
                 .build();
@@ -90,15 +90,5 @@ public class GlobalExceptionHandler {
 
 
 
-    /**
-     * 배치 익셉션 핸들러
-     * @param ex
-     * @return ResponseEntity
-     */
-    @ExceptionHandler(KyjBatException.class)
-    @Deprecated
-    public void handleBatException(KyjBatException ex){
-        String msg = ErrHelper.determineErrMsg(ex);
 
-    }
 }
