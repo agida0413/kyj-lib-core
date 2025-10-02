@@ -8,7 +8,6 @@ import com.kyj.core.api.CmErrCode;
 import com.kyj.core.file.util.FileType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,16 +33,10 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ObjFileService implements FileService {
-
-    @Value("${s3.credentials.bucket}")
-    private String bucket;
-
-    private static final long MAX_FILE_SIZE = 5* 1024 * 1024 ;
-
+public class S3FileService implements FileService {
 
     private final S3Client s3Client;
-
+    private final S3Properties s3Properties;
     /**
      * 파일업로드
      * @param file
@@ -69,14 +62,14 @@ public class ObjFileService implements FileService {
             }
         }
 
-        if (file.getSize() > MAX_FILE_SIZE) {
+        if (file.getSize() > s3Properties.getMaxFileSize()) {
             throw new KyjBizException(CmErrCode.CM008);
         }
 
         try {
             byte[] bytes = file.getBytes();
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(bucket)
+                .bucket(s3Properties.getBucket())
                 .key(s3FileName)
 //                .contentType("image/" + extension)
                 .build();
@@ -93,7 +86,7 @@ public class ObjFileService implements FileService {
         return s3Client
                 .utilities()
                 .getUrl(builder ->
-                        builder.bucket(bucket).key(s3FileName)
+                        builder.bucket(s3Properties.getBucket()).key(s3FileName)
                 )
                 .toExternalForm();
     }
@@ -107,7 +100,7 @@ public class ObjFileService implements FileService {
         String key = getKeyFromImageAddress(fileAddress);
         try {
             DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-                    .bucket(bucket)
+                    .bucket(s3Properties.getBucket())
                     .key(key)
                     .build();
             s3Client.deleteObject(deleteObjectRequest);
@@ -131,7 +124,7 @@ public class ObjFileService implements FileService {
         try {
             // S3 객체 요청
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                    .bucket(bucket)
+                    .bucket(s3Properties.getBucket())
                     .key(filename)
                     .build();
             // S3 객체 가져오기
