@@ -32,13 +32,12 @@ public class ExceptionAdvisor {
             Object[] args = joinPoint.getArgs();
             Object arg = args[0];
             ex = (Exception) arg;
-
+            log.error("예외 발생!! ={}",ex.getMessage());
+            log.error("예외 = ",ex);
         }
         catch (Exception e){
             ex = new KyjSysException(CmErrCode.CM002);
         }
-
-        ex.printStackTrace();
 
         exceptionPostProcess.proceed(joinPoint);
         
