@@ -3,7 +3,7 @@ package com.kyj.core.config;
 import com.kyj.core.exception.handler.BaseExceptionPostProcess;
 import com.kyj.core.exception.handler.ExceptionPostProcess;
 import com.kyj.core.mail.BaseJavaMailSender;
-import com.kyj.core.mail.CutomMailSender;
+import com.kyj.core.mail.CustomMailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,8 +32,8 @@ public class CoreAutoConfiguration {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(CutomMailSender.class)
-    public CutomMailSender cutomMailSender(){
+    @ConditionalOnMissingBean(CustomMailSender.class)
+    public CustomMailSender cutomMailSender(){
         return new BaseJavaMailSender(javaMailSender);
     }
 

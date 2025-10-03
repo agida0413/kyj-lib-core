@@ -17,7 +17,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class BaseJavaMailSender implements CutomMailSender {
+public class BaseJavaMailSender implements CustomMailSender {
 
     private final JavaMailSender javaMailSender;
 
