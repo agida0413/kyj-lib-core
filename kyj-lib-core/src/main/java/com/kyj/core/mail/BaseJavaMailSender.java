@@ -3,14 +3,13 @@ package com.kyj.core.mail;
 import com.kyj.core.async.annotation.AsyncVoidInvoke;
 import com.kyj.core.api.CmErrCode;
 import com.kyj.core.exception.custom.KyjSysException;
-import com.kyj.core.util.RandomGenerator;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+
 /**
  * 2025-05-30
  * @author 김용준
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class BaseJavaMailSender implements MailSender {
+public class BaseJavaMailSender implements CutomMailSender {
 
     private final JavaMailSender javaMailSender;
 
