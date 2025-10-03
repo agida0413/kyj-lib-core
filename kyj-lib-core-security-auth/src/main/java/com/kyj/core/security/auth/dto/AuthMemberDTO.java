@@ -3,9 +3,9 @@ package com.kyj.core.security.auth.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Value;
 
 @Getter
-@Setter
 @Builder
 public class AuthMemberDTO {
     private Long userId;
@@ -15,5 +15,7 @@ public class AuthMemberDTO {
     private String nickname;
     private String provider;
     private String providerId;
+
+    @Builder.Default
     private boolean active = true;
 }
