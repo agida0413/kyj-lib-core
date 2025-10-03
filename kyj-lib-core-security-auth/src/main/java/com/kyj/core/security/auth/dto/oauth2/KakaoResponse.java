@@ -51,4 +51,19 @@ public class KakaoResponse implements OAuth2Response {
     public String getNickname() {
         return getName(); // 카카오에서는 nickname이 name과 같음
     }
+
+
+    @Override
+    public String getProfile() {
+        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+        if (kakaoAccount == null) {
+            return null;
+        }
+        Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+        if (profile == null) {
+            return null;
+        }
+
+        return (String) profile.get("profile_image_url");
+    }
 }

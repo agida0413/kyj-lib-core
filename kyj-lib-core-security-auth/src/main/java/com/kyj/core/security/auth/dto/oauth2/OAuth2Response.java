@@ -31,4 +31,10 @@ public interface OAuth2Response {
      * 닉네임 반환
      */
     String getNickname();
+
+    /**
+     *
+     * 프로필이미지 반환
+     */
+    String getProfile();
 }

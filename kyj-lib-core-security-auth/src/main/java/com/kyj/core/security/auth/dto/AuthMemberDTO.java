@@ -15,7 +15,7 @@ public class AuthMemberDTO {
     private String nickname;
     private String provider;
     private String providerId;
-
+    private String profile;
     @Builder.Default
     private boolean active = true;
 }
