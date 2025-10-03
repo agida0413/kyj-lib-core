@@ -42,12 +42,14 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
             // 토큰 만료시 GONE 응답으로 클라이언트에 재발급 유도
             if (user.isExpired()) {
+                log.error("만료된 토큰의 사용자 접근 ={}",user.toString());
                 SecurityResponseUtil.writeErrorResponse(response, HttpStatus.GONE, SecurityErrorCode.SEC011);
                 return;
             }
 
             // 인증 실패시 공통 응답으로 처리 (퍼블릭 엔드포인트는 shouldNotFilter에서 처리)
             if (!user.isAuthenticated()) {
+                log.error("인증되지않은 토큰의 사용자 접근 ={}",user.toString());
                 SecurityResponseUtil.writeErrorResponse(response, HttpStatus.UNAUTHORIZED, SecurityErrorCode.SEC010);
                 return;
             }
