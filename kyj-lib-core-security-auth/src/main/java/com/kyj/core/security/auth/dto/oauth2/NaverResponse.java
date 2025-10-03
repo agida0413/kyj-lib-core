@@ -42,6 +42,9 @@ public class NaverResponse implements OAuth2Response {
 
     @Override
     public String getProfile() {
-        return ((Map<String, Object>) attributes.get("response")).get("profile_image").toString();
+
+        Object profileObj =  ((Map<String, Object>) attributes.get("response")).get("profile_image");
+
+        return profileObj  == null ? null : profileObj.toString();
     }
 }
