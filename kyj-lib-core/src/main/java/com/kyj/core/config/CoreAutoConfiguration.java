@@ -33,7 +33,7 @@ public class CoreAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(CutomMailSender.class)
-    public CutomMailSender mailSender(){
+    public CutomMailSender cutomMailSender(){
         return new BaseJavaMailSender(javaMailSender);
     }
 
