@@ -1,6 +1,8 @@
 package com.kyj.core.exception.advisor;
 
+import com.kyj.core.api.ErrCode;
 import com.kyj.core.exception.custom.KyjSysException;
+import com.kyj.core.exception.handler.ErrCodeRegistry;
 import com.kyj.core.exception.handler.ExceptionPostProcess;
 import com.kyj.core.api.CmErrCode;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +34,10 @@ public class ExceptionAdvisor {
             Object[] args = joinPoint.getArgs();
             Object arg = args[0];
             ex = (Exception) arg;
-            log.error("예외 발생!! ={}",ex.getMessage());
-            log.error("예외 = ",ex);
+            ErrCode err = ErrCodeRegistry.get(ex.getMessage()).orElse(CmErrCode.CM002);
+            log.error("예외 ={}",ex);
+            log.error("예외 발생 코드!! ={}",err.getCode());
+            log.error("예외 발생 메시지!! = {}",err.getMsg());
         }
         catch (Exception e){
             ex = new KyjSysException(CmErrCode.CM002);
