@@ -107,10 +107,12 @@ spring:
 
 # ===== 모니터링 설정 (kyj-lib-core 포함) =====
 management:
+  server:
+    port: 8081
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: "*"
   endpoint:
     health:
       show-details: always

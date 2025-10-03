@@ -4,7 +4,7 @@ package com.kyj.core.mail;
  * @author 김용준
  * Restful Api에서 사용하는 메일전송 인터페이스
  */
-public interface CutomMailSender {
+public interface CustomMailSender {
 
 
     public void send(MailDTO mailDTO);
