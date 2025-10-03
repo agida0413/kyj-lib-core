@@ -46,6 +46,7 @@ public class S3FileService implements FileService {
     @Override
     public String upload(MultipartFile file, FileType[] fileTypes) {
         if(file == null){
+            log.error("파일 정보 없음 = {}",file);
             throw new KyjBizException(CmErrCode.CM009);
         }
 
@@ -76,8 +77,10 @@ public class S3FileService implements FileService {
 
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(bytes));
     } catch (S3Exception e) {
+            log.error(e.getMessage());
             throw new KyjSysException(CmErrCode.CM009);
     } catch (SdkException e) {
+            log.error(e.getMessage());
             throw new KyjSysException(CmErrCode.CM009);
     } catch (IOException e) {
             throw new KyjSysException(CmErrCode.CM009);
@@ -106,8 +109,10 @@ public class S3FileService implements FileService {
             s3Client.deleteObject(deleteObjectRequest);
 
         } catch (S3Exception e) {
+            log.error(e.getMessage());
             throw new KyjSysException(CmErrCode.CM010);
         } catch (Exception e) {
+            log.error(e.getMessage());
             throw new KyjSysException(CmErrCode.CM010);
         }
 
@@ -138,8 +143,10 @@ public class S3FileService implements FileService {
             return new ResponseEntity<>(objectBytes.asByteArray(), headers, HttpStatus.OK);
 
         } catch (NoSuchKeyException e) {
-           throw new KyjSysException(CmErrCode.CM011);
+            log.error(e.getMessage());
+            throw new KyjSysException(CmErrCode.CM011);
         } catch (Exception e) {
+            log.error(e.getMessage());
             throw new KyjSysException(CmErrCode.CM011);
         }
 
@@ -153,11 +160,14 @@ public class S3FileService implements FileService {
             String decodedPath = URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8.name());
             return decodedPath.startsWith("/") ? decodedPath.substring(1) : decodedPath;
         } catch (MalformedURLException e) {
+            log.error(e.getMessage());
             throw new KyjSysException(CmErrCode.CM010);
         } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage());
             throw new KyjSysException(CmErrCode.CM010);
         }
         catch (Exception e) {
+            log.error(e.getMessage());
             throw new KyjSysException(CmErrCode.CM010);
         }
     }
