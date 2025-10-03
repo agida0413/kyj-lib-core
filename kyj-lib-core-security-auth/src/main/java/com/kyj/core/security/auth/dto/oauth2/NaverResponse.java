@@ -22,29 +22,51 @@ public class NaverResponse implements OAuth2Response {
 
     @Override
     public String getProviderId() {
-        return ((Map<String, Object>) attributes.get("response")).get("id").toString();
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        if (response == null) {
+            return null;
+        }
+        Object id = response.get("id");
+        return id != null ? id.toString() : null;
     }
 
     @Override
     public String getEmail() {
-        return ((Map<String, Object>) attributes.get("response")).get("email").toString();
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        if (response == null) {
+            return null;
+        }
+        Object email = response.get("email");
+        return email != null ? email.toString() : null;
     }
 
     @Override
     public String getName() {
-        return ((Map<String, Object>) attributes.get("response")).get("name").toString();
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        if (response == null) {
+            return null;
+        }
+        Object name = response.get("name");
+        return name != null ? name.toString() : null;
     }
 
     @Override
     public String getNickname() {
-        return ((Map<String, Object>) attributes.get("response")).get("nickname").toString();
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        if (response == null) {
+            return null;
+        }
+        Object nickname = response.get("nickname");
+        return nickname != null ? nickname.toString() : null;
     }
 
     @Override
     public String getProfile() {
-
-        Object profileObj =  ((Map<String, Object>) attributes.get("response")).get("profile_image");
-
-        return profileObj  == null ? null : profileObj.toString();
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        if (response == null) {
+            return null;
+        }
+        Object profileObj = response.get("profile_image");
+        return profileObj != null ? profileObj.toString() : null;
     }
 }
