@@ -21,7 +21,8 @@ public class JpaConfig {
      * @return
      */
     @Bean
-    public AuditorAware<String> auditorProvider(){
-        return () -> Optional.ofNullable(SecurityContext.getUsername());
+    public AuditorAware<String> auditorProvider() {
+        return () -> Optional.ofNullable(SecurityContext.getUsername())
+                .or(() -> Optional.of("SYSTEM")); // Optional을 반환해야 함
     }
 }
