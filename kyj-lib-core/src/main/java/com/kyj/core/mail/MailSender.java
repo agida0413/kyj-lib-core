@@ -7,7 +7,7 @@ package com.kyj.core.mail;
 public interface MailSender {
 
 
-    public void send(String template,String subject,String email);
+    public void send(MailDTO mailDTO);
 
 
 }
