@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
  * 실제 서비스에서는 AuthMemberService를 구현하여 이 빈을 대체해야 함
  */
 @Slf4j
-@Service
 @ConditionalOnProperty(
         prefix = "kyj.security.auth",
         name = "use-default-member-service",
