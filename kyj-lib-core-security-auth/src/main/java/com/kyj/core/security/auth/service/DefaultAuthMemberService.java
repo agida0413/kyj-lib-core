@@ -27,15 +27,15 @@ public class DefaultAuthMemberService implements AuthMemberService {
         log.warn("기본 AuthMemberService 사용 중 - 실제 구현으로 대체하세요!");
 
         // 임시 구현 - 실제로는 데이터베이스 연동 필요
-        AuthMemberDTO memberDTO = new AuthMemberDTO();
-        memberDTO.setUserId(1L); // 임시 사용자 ID
-        memberDTO.setUsername(oAuth2Response.getEmail());
-        memberDTO.setEmail(oAuth2Response.getEmail());
-//        memberDTO.setNickname(oAuth2Response.getNickname());
-        memberDTO.setRole("ROLE_USER");
-        memberDTO.setProvider(oAuth2Response.getProvider());
-        memberDTO.setProviderId(oAuth2Response.getProviderId());
-        memberDTO.setActive(true);
+        AuthMemberDTO memberDTO = AuthMemberDTO.builder()
+                .username(oAuth2Response.getEmail())
+                .email(oAuth2Response.getEmail())
+                .role("ROLE_USER")
+                .provider(oAuth2Response.getProvider())
+                .providerId(oAuth2Response.getProviderId())
+                .active(true)
+                .build();
+
 
         log.info("기본 회원 정보 생성: {}", memberDTO.getEmail());
         return memberDTO;
