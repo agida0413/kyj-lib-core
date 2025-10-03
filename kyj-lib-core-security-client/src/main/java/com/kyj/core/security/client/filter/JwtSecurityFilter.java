@@ -135,8 +135,15 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             return authHeader.substring(7);
         }
 
+        String tokenFromCookie =null;
         // 2. Authorization 쿠키 확인
-        String tokenFromCookie = (String) CookieUtil.getCookie("Authorization", request);
+        try {
+            tokenFromCookie=  (String) CookieUtil.getCookie("Authorization", request);
+
+        } catch (Exception e) {
+            return null;
+        }
+
         if (StringUtils.hasText(tokenFromCookie)) {
             return tokenFromCookie;
         }
