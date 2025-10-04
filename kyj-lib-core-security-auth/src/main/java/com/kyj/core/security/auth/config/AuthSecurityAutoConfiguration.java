@@ -128,7 +128,7 @@ public class AuthSecurityAutoConfiguration {
                 .successHandler(oAuth2SuccessHandler)
                 .failureUrl(authProperties.getOauth2().getFailureRedirectUrl()))
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/**").permitAll()
+                .requestMatchers("/oauth2/**", "/login/**").permitAll()
                 .requestMatchers(publicEndpoints).permitAll()
                 .requestMatchers(publicEndpointMatcher).permitAll() // @PublicEndpoint 어노테이션 매칭
                 .anyRequest().authenticated())
