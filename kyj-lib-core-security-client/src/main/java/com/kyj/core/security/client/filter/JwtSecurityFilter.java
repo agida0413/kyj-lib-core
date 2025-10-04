@@ -44,7 +44,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             // 토큰 만료시 GONE 응답으로 클라이언트에 재발급 유도
             if (user.isExpired()) {
                 log.error("만료된 토큰의 사용자 접근 ={}",user.toString());
-                SecurityResponseUtil.writeErrorResponse(response, HttpStatus.GONE, SecurityErrorCode.SEC011);
+                SecurityResponseUtil.writeErrorResponse(response, HttpStatus.GONE, SecurityErrorCode.SEC003);
                 return;
             }
 
