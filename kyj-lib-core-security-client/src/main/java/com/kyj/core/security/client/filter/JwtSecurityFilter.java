@@ -141,7 +141,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         // 2. Authorization 쿠키 확인
         try {
             tokenFromCookie=  (String) CookieUtil.getCookie("Authorization", request);
-
+            log.info("extractTokenFromRequest.토큰 = {}",tokenFromCookie);
         } catch (Exception e) {
             return null;
         }
