@@ -32,7 +32,7 @@ public class AuthSecurityProperties {
         /**
          * 액세스 토큰 만료 시간 (밀리초)
          */
-        private Long accessTokenExpiry = 3600000L; // 1시간
+        private Long accessTokenExpiry = 300000L; // 1시간
 
         /**
          * 리프레시 토큰 만료 시간 (밀리초)

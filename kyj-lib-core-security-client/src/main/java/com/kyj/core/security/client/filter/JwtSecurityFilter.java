@@ -9,6 +9,7 @@ import com.kyj.core.security.client.dto.SecurityUser;
 import com.kyj.core.security.client.service.TokenBlacklistService;
 import com.kyj.core.security.client.util.EndpointMatcher;
 import com.kyj.core.security.client.util.SecurityContext;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -88,13 +89,19 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             }
 
             // JWT 토큰 파싱 - security-auth 모듈의 AuthJWTUtil 사용
-            if (authJWTUtil.isExpired(token)) {
-                log.debug("만료된 JWT 토큰");
+            try {
+                authJWTUtil.isExpired(token);
+            } catch (ExpiredJwtException e) {
+                log.error("만료된 JWT 토큰");
                 return SecurityUser.expired(); // 토큰 만료 상태 표시
+            } catch (Exception e) {
+                log.error("유효하지 않은 JWT 토큰");
+                return SecurityUser.anonymous();
             }
 
+
             if (!authJWTUtil.validate(token)) {
-                log.debug("유효하지 않은 JWT 토큰");
+                log.error("유효하지 않은 JWT 토큰");
                 return SecurityUser.anonymous();
             }
 
