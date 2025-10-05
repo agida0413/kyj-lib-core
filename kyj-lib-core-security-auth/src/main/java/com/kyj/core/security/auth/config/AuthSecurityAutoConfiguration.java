@@ -100,7 +100,7 @@ public class AuthSecurityAutoConfiguration {
     /**
      * OAuth2 인증을 위한 SecurityFilterChain 설정
      */
-    @Bean(name = "authSecurityFilterChain")
+    @Bean(name = "localAuthSecurityFilterChain")
     @ConditionalOnMissingBean(name = "authSecurityFilterChain")
     @Profile("local")
     public SecurityFilterChain localAuthSecurityFilterChain(
