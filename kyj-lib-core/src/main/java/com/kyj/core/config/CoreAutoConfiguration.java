@@ -37,4 +37,6 @@ public class CoreAutoConfiguration {
         return new BaseJavaMailSender(javaMailSender);
     }
 
+
+
 }

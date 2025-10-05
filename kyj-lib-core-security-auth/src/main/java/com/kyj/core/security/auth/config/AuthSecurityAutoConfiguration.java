@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,6 +27,11 @@ import com.kyj.core.security.client.config.SecurityProperties;
 import com.kyj.core.security.client.util.EndpointMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * 인증서버 자동 설정
@@ -96,7 +102,8 @@ public class AuthSecurityAutoConfiguration {
      */
     @Bean(name = "authSecurityFilterChain")
     @ConditionalOnMissingBean(name = "authSecurityFilterChain")
-    public SecurityFilterChain authSecurityFilterChain(
+    @Profile("local")
+    public SecurityFilterChain localAuthSecurityFilterChain(
             HttpSecurity http,
             CustomOAuth2UserService customOAuth2UserService,
             OAuth2SuccessHandler oAuth2SuccessHandler,
@@ -106,6 +113,31 @@ public class AuthSecurityAutoConfiguration {
             SecurityProperties securityProperties) throws Exception {
 
         log.info("OAuth2 SecurityFilterChain 등록");
+
+
+        http
+                .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                        CorsConfiguration configuration = new CorsConfiguration();
+
+                        configuration.setAllowedOrigins(Arrays.asList(
+                                "http://localhost:3000"
+                        ));
+                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                        configuration.setAllowCredentials(true);
+                        configuration.setAllowedHeaders(Collections.singletonList("*"));
+                        configuration.setMaxAge(3600L);
+
+
+                        // 노출할 헤더 (쿠키 + 인증 토큰 등)
+                        configuration.setExposedHeaders(Arrays.asList("Set-Cookie", "Authorization"));
+
+                        return configuration;
+                    }
+                }));
 
         // @PublicEndpoint 어노테이션 매처 생성
         RequestMatcher publicEndpointMatcher = new RequestMatcher() {
@@ -136,5 +168,51 @@ public class AuthSecurityAutoConfiguration {
                 .authenticationEntryPoint(authenticationEntryPoint) // 인증 실패 시 JSON 응답
                 .accessDeniedHandler(accessDeniedHandler)) // 인가 실패 시 JSON 응답
             .build();
+    }
+
+
+    @Bean(name = "authSecurityFilterChain")
+    @ConditionalOnMissingBean(name = "localAuthSecurityFilterChain")
+    public SecurityFilterChain authSecurityFilterChain(
+            HttpSecurity http,
+            CustomOAuth2UserService customOAuth2UserService,
+            OAuth2SuccessHandler oAuth2SuccessHandler,
+            CustomAuthenticationEntryPoint authenticationEntryPoint,
+            CustomAccessDeniedHandler accessDeniedHandler,
+            AuthSecurityProperties authProperties,
+            SecurityProperties securityProperties) throws Exception {
+
+        log.info("OAuth2 SecurityFilterChain 등록");
+
+
+        // @PublicEndpoint 어노테이션 매처 생성
+        RequestMatcher publicEndpointMatcher = new RequestMatcher() {
+            @Override
+            public boolean matches(HttpServletRequest request) {
+                return EndpointMatcher.isPublicEndpoint(request, securityProperties.getStaticPublicEndpoints());
+            }
+        };
+
+        // 퍼블릭 엔드포인트 목록 가져오기
+        String[] publicEndpoints = securityProperties.getStaticPublicEndpoints().toArray(new String[0]);
+
+        return http
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler)
+                        .failureUrl(authProperties.getOauth2().getFailureRedirectUrl()))
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/oauth2/**", "/login/**").permitAll()
+                        .requestMatchers(publicEndpoints).permitAll()
+                        .requestMatchers(publicEndpointMatcher).permitAll() // @PublicEndpoint 어노테이션 매칭
+                        .anyRequest().authenticated())
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(authenticationEntryPoint) // 인증 실패 시 JSON 응답
+                        .accessDeniedHandler(accessDeniedHandler)) // 인가 실패 시 JSON 응답
+                .build();
     }
 }
