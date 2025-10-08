@@ -54,8 +54,10 @@ public class EndpointMatcher {
             if (isStaticPublicEndpoint(request, staticEndpoints)) {
                 return true;
             }
+
             // HandlerMethod 조회를 통한 어노테이션 확인
             HandlerMethod handlerMethod = getHandlerMethod(request);
+            log.info("현재요청 handlerMethod ={}",handlerMethod);
             if (handlerMethod != null) {
                 return isPublicEndpoint(handlerMethod);
             }
@@ -77,7 +79,8 @@ public class EndpointMatcher {
 
         Method method = handlerMethod.getMethod();
         Class<?> clazz = handlerMethod.getBeanType();
-
+        log.info("현재요청 method= {}",handlerMethod.getMethod());
+        log.info("현재요청 clazz= {}",handlerMethod.getBeanType());
         // 메서드 또는 클래스에 @PublicEndpoint 어노테이션이 있는지 확인
         return method.isAnnotationPresent(PublicEndpoint.class) ||
                clazz.isAnnotationPresent(PublicEndpoint.class);
