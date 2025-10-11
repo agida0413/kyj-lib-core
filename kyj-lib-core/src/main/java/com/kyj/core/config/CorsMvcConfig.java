@@ -17,7 +17,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost", "http://127.0.0.1","https://bottle-story-dev.com:31443")
+                .allowedOrigins("http://localhost:80", "http://127.0.0.1","http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true) // 쿠키 포함 허용
                 .maxAge(3600);

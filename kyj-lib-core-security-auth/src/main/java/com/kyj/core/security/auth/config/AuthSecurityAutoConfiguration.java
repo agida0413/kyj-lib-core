@@ -124,7 +124,7 @@ public class AuthSecurityAutoConfiguration {
                         CorsConfiguration configuration = new CorsConfiguration();
 
                         configuration.setAllowedOrigins(Arrays.asList(
-                                "http://localhost:3000"
+                                "http://localhost:3000","http://localhost:80"
                         ));
                         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                         configuration.setAllowCredentials(true);
